@@ -13,11 +13,11 @@ import { About } from "./pages/About";
 import { MainPage } from "./pages/MainPage";
 import { OnlineConvertor } from "./pages/OnlineConvertor";
 import { ExcelToMasav } from "./pages/ExcelToMasav";
+import { ReactComponent as Logo } from "./logo.svg";
 
 const { Header, Content, Footer } = Layout;
 
 const MenuComponent = withRouter(({ history }) => {
-  console.log(history?.location?.pathname);
   return (
     <Menu
       theme="dark"
@@ -25,7 +25,12 @@ const MenuComponent = withRouter(({ history }) => {
       selectedKeys={[history?.location?.pathname]}
       defaultSelectedKeys={["/"]}
     >
-      <Menu.Item key={"/"}>
+      <Menu.Item
+        icon={
+          <Logo height="25px" style={{ transform: "translate(-6px, 6px)" }} />
+        }
+        key={"/"}
+      >
         <Link to="/">Home Page</Link>
       </Menu.Item>
       <Menu.Item key={"/convert-excel"}>
@@ -34,9 +39,9 @@ const MenuComponent = withRouter(({ history }) => {
       <Menu.Item key={"/online-builder"}>
         <Link to="/online-builder">Online Editor</Link>
       </Menu.Item>
-      <Menu.Item key={"/about"}>
+      {/*  <Menu.Item key={"/about"}>
         <Link to="/about">About</Link>
-      </Menu.Item>
+      </Menu.Item>*/}
     </Menu>
   );
 });
@@ -45,14 +50,11 @@ const App = () => {
   return (
     <Router>
       <Layout>
-        <Header>
-          <div className="logo" />
-          <MenuComponent />
-        </Header>
+        <MenuComponent />
         <Content
           style={{
             padding: "0 50px",
-            height: "calc(100vh - 96px",
+            height: "calc(100vh - 80px",
             overflowY: "scroll",
           }}
         >
@@ -63,9 +65,9 @@ const App = () => {
             <Route path="/online-builder">
               <OnlineConvertor />
             </Route>
-            <Route path="/about">
+            {/* <Route path="/about">
               <About />
-            </Route>
+        </Route>*/}
             <Route path="/">
               <MainPage />
             </Route>

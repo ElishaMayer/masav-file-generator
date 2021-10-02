@@ -1,5 +1,9 @@
 import { Typography, Divider, Button } from "antd";
-import { DownloadOutlined, EditOutlined, FileExcelOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  EditOutlined,
+  FileExcelOutlined,
+} from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 
 const { Title, Paragraph, Text, Link } = Typography;
@@ -13,10 +17,16 @@ export const MainPage = () => {
       >
         <Title>Wellcome to Masav Online File Generator</Title>
         <Paragraph>
-          In the process of internal desktop applications development, many
-          different design specs and implementations would be involved, which
-          might cause designers and developers difficulties and duplication and
-          reduce the efficiency of development.
+          When transferring money to multiple people, it's recommended to use
+          &nbsp;
+          <a target="_blank" href="https://www.masav.co.il/">
+            Masav
+          </a>
+          &nbsp; to transfer money. The problem is that Masav accepts only a
+          binary file with the records. Most CRM programs in Israel can export
+          this file, but without such a program, it can be complicated. This
+          website can help you build them with the online editor, or converting
+          from excel files.
         </Paragraph>
       </Typography>
       <Button

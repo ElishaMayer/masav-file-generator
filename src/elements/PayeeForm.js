@@ -52,7 +52,7 @@ const areFieldsValid = ({
 };
 
 export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
-  const [isEdit, setisEdit] = useState('');
+  const [isEdit, setisEdit] = useState("");
   const [branchoptions, setbranchoptions] = useState([]);
   const [modalOpen, setmodalOpen] = useState(false);
   const height = useWindowHeight();
@@ -93,7 +93,6 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
       setmodalOpen(true);
     },
   }));
-
   return (
     <Modal
       onCancel={() => {

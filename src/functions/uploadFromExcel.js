@@ -8,7 +8,7 @@ export const uploadFromExcel = async (buffer) => {
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.load(buffer);
     const worksheet = workbook.worksheets[0];
-    if (!worksheet) console.log("no sheets");
+    if (!worksheet) throw new Error("no sheets");
     let validRow = true;
     let rowNum = 2;
     const transactions = [];
