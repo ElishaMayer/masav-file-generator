@@ -14,10 +14,6 @@ export class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
-    window.firebase.analytics().logEvent("exception", {
-      fatal: true,
-      description: error.message,
-    });
   }
 
   render() {

@@ -85,5 +85,4 @@ export const generateMasavFile = ({ institution, transactions }) => {
   link.href = window.URL.createObjectURL(blob);
   link.download = `msv.${institution.serialNumber}`;
   link.click();
-  window.firebase.analytics().logEvent("file_generated");
 };
