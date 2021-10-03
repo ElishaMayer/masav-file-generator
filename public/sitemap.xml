@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://masav-converter.com/?lang=he</loc>
+        <lastmod>2021-10-3</lastmod>
+        <changefreq>weekly</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://masav-converter.com/?lang=en" />
+    </url>
+    <url>
+        <loc>https://masav-converter.com/?lang=en</loc>
+        <lastmod>2021-10-3</lastmod>
+        <changefreq>weekly</changefreq>
+        <xhtml:link rel="alternate" hreflang="he" href="https://masav-converter.com/?lang=he" />
+    </url>
+    <url>
+        <loc>https://masav-converter.com/convert-excel?lang=he</loc>
+        <lastmod>2021-10-3</lastmod>
+        <changefreq>weekly</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://masav-converter.com/convert-excel?lang=en" />
+    </url>
+    <url>
+        <loc>https://masav-converter.com/convert-excel?lang=en</loc>
+        <lastmod>2021-10-3</lastmod>
+        <changefreq>weekly</changefreq>
+        <xhtml:link rel="alternate" hreflang="he" href="https://masav-converter.com/convert-excel?lang=he" />
+    </url>
+    <url>
+        <loc>https://masav-converter.com/online-builder?lang=he</loc>
+        <lastmod>2021-10-3</lastmod>
+        <changefreq>weekly</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://masav-converter.com/online-builder?lang=en" />
+    </url>
+    <url>
+        <loc>https://masav-converter.com/online-builder?lang=en</loc>
+        <lastmod>2021-10-3</lastmod>
+        <changefreq>weekly</changefreq>
+        <xhtml:link rel="alternate" hreflang="he" href="https://masav-converter.com/online-builder?lang=he" />
+    </url>
+    <url>
+        <loc>https://masav-converter.com/about?lang=he</loc>
+        <lastmod>2021-10-3</lastmod>
+        <changefreq>weekly</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://masav-converter.com/about?lang=en" />
+    </url>
+    <url>
+        <loc>https://masav-converter.com/about?lang=en</loc>
+        <lastmod>2021-10-3</lastmod>
+        <changefreq>weekly</changefreq>
+        <xhtml:link rel="alternate" hreflang="he" href="https://masav-converter.com/about?lang=he" />
+    </url>
+
+</urlset>
