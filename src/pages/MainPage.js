@@ -1,32 +1,26 @@
-import { Typography, Divider, Button } from "antd";
-import {
-  DownloadOutlined,
-  EditOutlined,
-  FileExcelOutlined,
-} from "@ant-design/icons";
+import { Typography, Button } from "antd";
+import { EditOutlined, FileExcelOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title, Paragraph } = Typography;
 
 export const MainPage = () => {
   const history = useHistory();
+  const { t } = useTranslation("home-page");
   return (
     <div>
       <Typography
         style={{ maxWidth: "600px", margin: "auto", paddingTop: "50px" }}
       >
-        <Title>Wellcome to Masav Online File Generator</Title>
+        <Title>{t("main-title")}</Title>
         <Paragraph>
-          When transferring money to multiple people, it's recommended to use
+          {t("para-1")}
           &nbsp;
           <a target="_blank" href="https://www.masav.co.il/">
-            Masav
+            {t("masav")}
           </a>
-          &nbsp; to transfer money. The problem is that Masav accepts only a
-          binary file with the records. Most CRM programs in Israel can export
-          this file, but without such a program, it can be complicated. This
-          website can help you build them with the online editor, or converting
-          from excel files.
+          &nbsp; {t("para-2")}
         </Paragraph>
       </Typography>
       <Button
@@ -42,7 +36,7 @@ export const MainPage = () => {
         }}
         size={"large"}
       >
-        Online Editor
+        {t("online-editor")}
       </Button>
       <Button
         style={{
@@ -57,7 +51,7 @@ export const MainPage = () => {
         icon={<FileExcelOutlined />}
         size={"large"}
       >
-        Excel to Masav Convertor
+        {t("excel-to-masav-convertor")}
       </Button>
     </div>
   );

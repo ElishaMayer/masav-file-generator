@@ -3,6 +3,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { isEqual } from "lodash";
+import { useTranslation } from "react-i18next";
 
 const layout = {
   labelCol: { span: 100 },
@@ -17,6 +18,7 @@ const defaultValues = {
 };
 
 export const InstitutionForm = ({ onGenerateFileClick, onDataChange }) => {
+  const { t } = useTranslation("online-convertor");
   const [form] = Form.useForm();
   const [institueDetals, setinstitueDetals] = useState({
     institutionId: "",
@@ -54,68 +56,58 @@ export const InstitutionForm = ({ onGenerateFileClick, onDataChange }) => {
       <Form.Item
         name="institutionId"
         tooltip={{
-          title: "The institution Id ( Given by Masav ) 8 digits",
+          title: t("institution-id-tooltip"),
           icon: <InfoCircleOutlined />,
         }}
-        label="Institution Id"
+        label={t("institution-id-label")}
         rules={[
-          { required: true },
-          { len: 8, message: "Should be 8 digits long" },
+          { required: true, message: t("messages-field-is-required") },
+          { len: 8, message: t("messages-8-digits") },
         ]}
       >
-        <Input placeholder="00000000" />
+        <Input placeholder={t("institution-id-placeholder")} />
       </Form.Item>
       <Form.Item
         name="sendingInstitutionId"
         tooltip={{
-          title: "The sending institution Id ( Given by Masav ) 5 digits",
+          title: t("sending-institution-id-tooltip"),
           icon: <InfoCircleOutlined />,
         }}
-        label="Sending Institution Id"
+        label={t("sending-institution-id-label")}
         rules={[
-          { required: true },
-          { len: 5, message: "Should be 5 digits long" },
+          { required: true, message: t("messages-field-is-required") },
+          { len: 5, message: t("messages-5-digits") },
         ]}
       >
-        <Input placeholder="00000" />
+        <Input placeholder={t("sending-institution-id-palceholder")} />
       </Form.Item>
       <Form.Item
         name="institutionName"
         tooltip={{
-          title: "The institution name as subscribed in masav",
+          title: t("institution-name-tooltip"),
           icon: <InfoCircleOutlined />,
         }}
-        label="Institution Name"
+        label={t("institution-name-label")}
         rules={[
-          { required: true },
-          { max: 30, message: "Can't be longer than 30 characters" },
+          { required: true, message: t("messages-field-is-required") },
+          { max: 30, message: t("messages-max-30-digits") },
         ]}
       >
-        <Input placeholder="Name" />
+        <Input placeholder={t("institution-name-placeholder")} />
       </Form.Item>
       <Form.Item
         name="serialNumber"
         tooltip={{
-          title: "The record serial number",
+          title: t("serial-number-tooltip"),
           icon: <InfoCircleOutlined />,
         }}
-        label="Serial Number"
+        label={t("serial-number-label")}
         rules={[
-          { required: true },
-          { len: 3, message: "Should be 3 digits long" },
+          { required: true, message: t("messages-field-is-required") },
+          { len: 3, message: t("messages-3-digits") },
         ]}
       >
-        <Input placeholder="001" />
-      </Form.Item>
-      <Form.Item>
-        <Button
-          onClick={onSumbit}
-          type="primary"
-          shape="round"
-          htmlType="button"
-        >
-          Download Masav File
-        </Button>
+        <Input placeholder={t("serial-number-placeholder")} />
       </Form.Item>
     </Form>
   );

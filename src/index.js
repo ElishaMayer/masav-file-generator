@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -7,6 +7,10 @@ import CookieConsent from "react-cookie-consent";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { ErrorBoundary } from "./elements/ErrorBoundry";
+import "./i18Next";
+import { Skeleton } from "antd";
+import { ConfigProvider } from "antd";
+import { getLanguageCode } from "./functions/getLanguageCode";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCyc2BK0sp2gL6VN0eQ3QyBOnZytHqlZUY",
@@ -23,12 +27,16 @@ getAnalytics(app);
 
 ReactDOM.render(
   <React.StrictMode>
-    <CookieConsent>
-      This website uses cookies to enhance the user experience.
-    </CookieConsent>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
+    <Suspense fallback={<Skeleton />}>
+      <CookieConsent>
+        This website uses cookies to enhance the user experience.
+      </CookieConsent>
+      <ErrorBoundary>
+        <ConfigProvider direction={getLanguageCode() === "he" ? "rtl" : "ltr"}>
+          <App />
+        </ConfigProvider>
+      </ErrorBoundary>
+    </Suspense>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.less";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu, Breadcrumb, Button } from "antd";
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,39 +14,54 @@ import { MainPage } from "./pages/MainPage";
 import { OnlineConvertor } from "./pages/OnlineConvertor";
 import { ExcelToMasav } from "./pages/ExcelToMasav";
 import { ReactComponent as Logo } from "./logo.svg";
+import { useTranslation } from "react-i18next";
+import pack from "../package.json";
 
 const { Header, Content, Footer } = Layout;
 
 const MenuComponent = withRouter(({ history }) => {
+  const { t } = useTranslation();
   return (
-    <Menu
-      theme="dark"
-      mode="horizontal"
-      selectedKeys={[history?.location?.pathname]}
-      defaultSelectedKeys={["/"]}
-    >
-      <Menu.Item
-        icon={
-          <Logo height="25px" style={{ transform: "translate(-6px, 6px)" }} />
-        }
-        key={"/"}
+    <>
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        selectedKeys={[history?.location?.pathname]}
+        defaultSelectedKeys={["/"]}
       >
-        <Link to="/">Home Page</Link>
-      </Menu.Item>
-      <Menu.Item key={"/convert-excel"}>
-        <Link to="/convert-excel">Convert from Excel</Link>
-      </Menu.Item>
-      <Menu.Item key={"/online-builder"}>
-        <Link to="/online-builder">Online Editor</Link>
-      </Menu.Item>
-      {/*  <Menu.Item key={"/about"}>
-        <Link to="/about">About</Link>
-      </Menu.Item>*/}
-    </Menu>
+        <Menu.Item
+          icon={
+            <Logo height="25px" style={{ transform: "translate(-6px, 6px)" }} />
+          }
+          key={"/"}
+        >
+          <Link to="/">{t("home-page")}</Link>
+        </Menu.Item>
+        <Menu.Item key={"/convert-excel"}>
+          <Link to="/convert-excel">{t("convert-from-excel")}</Link>
+        </Menu.Item>
+        <Menu.Item key={"/online-builder"}>
+          <Link to="/online-builder">{t("online-editor")}</Link>
+        </Menu.Item>
+        <Menu.Item key={"/about"}>
+          <Link to="/about">{t("about")}</Link>
+        </Menu.Item>
+        <Menu.Item key={"/lang"}>
+          <a href={`${window.location.pathname}?lang=${t("other-lang-code")}`}>
+            {t("other-lang")}
+          </a>
+        </Menu.Item>
+      </Menu>
+    </>
   );
 });
 
 const App = () => {
+  const { t } = useTranslation();
+  useEffect(() => {
+    document.getElementById("seo-title").innerHTML = t("seo-title");
+    document.getElementById("seo-description").content = t("seo-description");
+  }, []);
   return (
     <Router>
       <Layout>
@@ -65,16 +80,16 @@ const App = () => {
             <Route path="/online-builder">
               <OnlineConvertor />
             </Route>
-            {/* <Route path="/about">
+            <Route path="/about">
               <About />
-        </Route>*/}
+            </Route>
             <Route path="/">
               <MainPage />
             </Route>
           </Switch>
         </Content>
         <Footer style={{ textAlign: "center", padding: "5px" }}>
-          Elisha Mayer ©2021
+          {t("credits") + " v" + pack.version}
         </Footer>
       </Layout>
     </Router>

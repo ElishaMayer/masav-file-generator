@@ -3,6 +3,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   DeleteOutlined,
+  DownloadOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
   PlusOutlined,
@@ -18,6 +19,7 @@ import isIsraeliIdValid from "israeli-id-validator";
 import { useWindowHeight } from "@react-hook/window-size";
 import { generateMasavFile } from "../functions/generateMasavFile";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
+import { useTranslation } from "react-i18next";
 
 const ValidatedField = ({ text, tooltip, icon }) => {
   return (
@@ -29,21 +31,21 @@ const ValidatedField = ({ text, tooltip, icon }) => {
   );
 };
 
-const columns = [
+const columns = (t) => [
   {
-    title: "Bank Details",
+    title: t("bank-details"),
     dataIndex: "bankId",
     render: (bankId, { branchId, accountId }) => {
       const result = validateBankAccount(bankId, branchId, accountId);
       let icon = <ExclamationCircleOutlined style={{ color: "orange" }} />;
-      let tooltip = "Account number coun't be verified";
+      let tooltip = t("messages-unvalidated-account");
       if (result === RESULT.NOT_VALID) {
         icon = <CloseCircleOutlined style={{ color: "red" }} />;
-        tooltip = "Account number is not valid";
+        tooltip = t("messages-invalid-account");
       }
       if (result === RESULT.VALID) {
         icon = <CheckCircleOutlined style={{ color: "green" }} />;
-        tooltip = "Account number is valid";
+        tooltip = t("messages-valid-account");
       }
       return (
         <ValidatedField
@@ -55,29 +57,29 @@ const columns = [
     },
   },
   {
-    title: "Payee ID",
+    title: t("payee-id"),
     dataIndex: "payeeId",
     render: (payeeId) => {
       const result = isIsraeliIdValid(payeeId);
       let icon = <CloseCircleOutlined style={{ color: "red" }} />;
-      let tooltip = "ID number is not valid";
+      let tooltip = t("messages-invalid-id");
       if (result) {
         icon = <CheckCircleOutlined style={{ color: "green" }} />;
-        tooltip = "ID number is valid";
+        tooltip = t("messages-valid-id");
       }
       return <ValidatedField text={payeeId} tooltip={tooltip} icon={icon} />;
     },
   },
   {
-    title: "Payee Name",
+    title: t("payee-name"),
     dataIndex: "payeeName",
   },
   {
-    title: "Employee Number",
+    title: t("employee-number"),
     dataIndex: "payeeNumber",
   },
   {
-    title: "Amount",
+    title: t("amount"),
     dataIndex: "amount",
     render: (amount) =>
       `${new Intl.NumberFormat("il-IL", {
@@ -93,6 +95,7 @@ const getTransactionFromStorage = () => {
 };
 export const OnlineConvertor = () => {
   const height = useWindowHeight();
+  const { t } = useTranslation("online-convertor");
   const modalRef = useRef();
   const [transactions, settransactions] = useState(getTransactionFromStorage());
   const [institution, setinstitution] = useState(null);
@@ -120,7 +123,7 @@ export const OnlineConvertor = () => {
 
   const actionsColumn = useMemo(
     () => ({
-      title: "Actions",
+      title: t("actions"),
       dataIndex: "actions",
       width: "150px",
       render: (_, record) => (
@@ -151,15 +154,10 @@ export const OnlineConvertor = () => {
     <div>
       <PageHeader
         onBack={() => history.push("/")}
-        title="Online Masav File Builder"
-        subTitle="Edit and generate masav payment files"
+        title={t("title")}
+        subTitle={t("sub-title")}
       />
-      <InstitutionForm
-        onDataChange={setinstitution}
-        onGenerateFileClick={() =>
-          generateMasavFile({ institution, transactions })
-        }
-      />
+      <InstitutionForm onDataChange={setinstitution} />
       <Space style={{ width: "100%", height: "80px" }}>
         <Button
           type="primary"
@@ -175,24 +173,15 @@ export const OnlineConvertor = () => {
           onClick={() => settransactions([])}
           icon={<DeleteOutlined />}
         >
-          Delete All
+          {t("delete-all-button")}
         </Button>
         <Upload
           name="file"
           accept=".xlsx"
           showUploadList={false}
-          beforeUpload={(file) => {
-            const reader = new FileReader();
-            reader.onload = async () => {
-              const state = await uploadFromExcel(reader.result);
-              settransactions((old) => [...old, ...state]);
-            };
-            reader.readAsArrayBuffer(file);
-            reader.onerror = () =>
-              Modal.error({
-                title: "Error opening file",
-                content: "Make sure it's a valid excel file",
-              });
+          beforeUpload={async (file) => {
+            const state = await uploadFromExcel(file, t);
+            settransactions((old) => [...old, ...state]);
             return false;
           }}
         >
@@ -202,20 +191,30 @@ export const OnlineConvertor = () => {
             shape="round"
             icon={<UploadOutlined />}
           >
-            Import from Excel (xlsx)
+            {t("import-excel")}
           </Button>
         </Upload>
         <a download href="/example.xlsx">
-          Example Excel File
+          {t("example-file-link")}
         </a>
+        <Button
+          type="primary"
+          size="large"
+          shape="round"
+          onClick={() => generateMasavFile({ institution, transactions }, t)}
+          icon={<DownloadOutlined />}
+        >
+          {t("download-file-button")}
+        </Button>
       </Space>
       <Table
-        scroll={{ y: height - 422 }}
+        style={{ minWidth: "800px" }}
+        scroll={{ y: height - 386 }}
         dataSource={transactions}
-        columns={[...columns, actionsColumn]}
+        columns={[...columns(t), actionsColumn]}
         summary={() => (
           <Table.Summary.Row>
-            <Table.Summary.Cell>Total</Table.Summary.Cell>
+            <Table.Summary.Cell>{t("total")}</Table.Summary.Cell>
             <Table.Summary.Cell></Table.Summary.Cell>
             <Table.Summary.Cell></Table.Summary.Cell>
             <Table.Summary.Cell></Table.Summary.Cell>

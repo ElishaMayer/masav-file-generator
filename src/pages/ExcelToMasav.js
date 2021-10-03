@@ -7,23 +7,24 @@ import {
 } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
+import { useTranslation } from "react-i18next";
 const { Dragger } = Upload;
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 export const ExcelToMasav = () => {
   const history = useHistory();
+  const { t } = useTranslation("conver-from-excel");
   return (
     <div>
       <Typography
         style={{ maxWidth: "600px", margin: "auto", paddingTop: "50px" }}
       >
-        <Title>Import Transactions from Excel File</Title>
+        <Title>{t("main-title")}</Title>
         <Paragraph>
-          To import data from excel sheets make sure the excel has only one
-          sheet and that the data is in the same format as the{" "}
+          {t("para-1")}{" "}
           <a download href="/example.xlsx">
-            Example Excel File
+            {t("para-2")}
           </a>
         </Paragraph>
         <Image src="/excel-example.png" alt="Excel example screenshot" />
@@ -33,32 +34,21 @@ export const ExcelToMasav = () => {
         name="file"
         accept=".xlsx"
         showUploadList={false}
-        beforeUpload={(file) => {
-          const reader = new FileReader();
-          reader.onload = async () => {
-            const state = await uploadFromExcel(reader.result);
-            localStorage.setItem(
-              "@online-editor/transactions-state",
-              JSON.stringify(state)
-            );
-            history.push("/online-builder");
-          };
-          reader.readAsArrayBuffer(file);
-          reader.onerror = () =>
-            Modal.error({
-              title: "Error opening file",
-              content: "Make sure it's a valid excel file",
-            });
+        beforeUpload={async (file) => {
+          const state = await uploadFromExcel(file, t);
+          localStorage.setItem(
+            "@online-editor/transactions-state",
+            JSON.stringify(state)
+          );
+          history.push("/online-builder");
           return false;
         }}
       >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
-        </p>
-        <p className="ant-upload-hint">Support only for xlsx file</p>
+        <p className="ant-upload-text">{t("dragger-title")}</p>
+        <p className="ant-upload-hint">{t("dragger-description")}</p>
       </Dragger>
     </div>
   );

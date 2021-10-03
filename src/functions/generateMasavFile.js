@@ -6,36 +6,49 @@ import {
 } from "masav";
 import moment from "moment";
 
-export const generateMasavFile = ({ institution, transactions }) => {
+export const generateMasavFile = ({ institution, transactions }, t) => {
+  const tt = (str) => t(`translation:${str}`);
   const messages = [];
   if (!institution.institutionId.match(/^\d{8}$/))
-    messages.push("Invalid insitution ID");
+    messages.push(tt("invalid-insitution-id"));
   if (!institution.institutionName.match(/^.{1,30}$/))
-    messages.push("Invalid insitution Name");
+    messages.push(tt("invalid-insitution-Name"));
   if (!institution.sendingInstitutionId.match(/^\d{5}$/))
-    messages.push("Invalid insitution sending ID");
+    messages.push(tt("invalid-insitution-sending-id"));
   if (!institution.serialNumber.match(/^\d{3}$/))
-    messages.push("Invalid serial number");
-  if (!transactions.length) messages.push("No transactions");
+    messages.push(tt("invalid-serial-number"));
+  if (!transactions.length) messages.push(tt("no-transactions"));
   transactions.forEach(
     ({ accountId, amount, bankId, branchId, payeeId, payeeName }, i) => {
       if (!accountId.match(/^\d{1,9}$/))
-        messages.push(`In row number ${i + 1} bank account is not valid`);
+        messages.push(
+          `${tt("in-row-number-")}${i + 1}${tt("-bank-account-is-not-valid")}`
+        );
       if (isNaN(amount) || amount <= 0)
-        messages.push(`In row number ${i + 1} amount is not valid`);
+        messages.push(
+          `${tt("in-row-number-")}${i + 1}${tt("-amount-is-not-valid")}`
+        );
       if (!bankId.match(/^\d{1,2}$/))
-        messages.push(`In row number ${i + 1} bank ID is not valid`);
+        messages.push(
+          `${tt("in-row-number-")}${i + 1}${tt("-bank-id-is-not-valid")}`
+        );
       if (!branchId.match(/^\d{1,3}$/))
-        messages.push(`In row number ${i + 1} branch ID is not valid`);
+        messages.push(
+          `${tt("in-row-number-")}${i + 1}${tt("-branch-id-is-not-valid")}`
+        );
       if (!payeeId.match(/^\d{1,9}$/))
-        messages.push(`In row number ${i + 1} payee ID is not valid`);
+        messages.push(
+          `${tt("in-row-number-")}${i + 1}${tt("-payee-id-is-not-valid")}`
+        );
       if (!payeeName.match(/^.{0,16}$/))
-        messages.push(`In row number ${i + 1} payee name is not valid`);
+        messages.push(
+          `${tt("in-row-number-")}${i + 1}${tt("-payee-name-is-not-valid")}`
+        );
     }
   );
   if (messages.length) {
     Modal.error({
-      title: "Sorry there are some errors",
+      title: tt("masav-file-errors"),
       content: (
         <ul>
           {messages.map((m, i) => (

@@ -17,6 +17,7 @@ import isIsraeliIdValid from "israeli-id-validator";
 import { validateBankAccount, RESULT } from "israeli-bank-validation";
 import Modal from "antd/lib/modal/Modal";
 import { useWindowHeight } from "@react-hook/window-size";
+import { useTranslation } from "react-i18next";
 
 const bankOptions = getAllBanks().map((bank) => ({
   label: `${bank.bankCode} - ${bank.bankName}`,
@@ -52,6 +53,7 @@ const areFieldsValid = ({
 };
 
 export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
+  const { t } = useTranslation("online-convertor");
   const [isEdit, setisEdit] = useState("");
   const [branchoptions, setbranchoptions] = useState([]);
   const [modalOpen, setmodalOpen] = useState(false);
@@ -99,8 +101,9 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
         form.resetFields();
         setmodalOpen(false);
       }}
-      bodyStyle={{ maxHeight: height - 170, overflowY: "auto" }}
-      title={isEdit ? "Edit Transaction Details" : "Add Transaction Details"}
+      style={{ top: 20 }}
+      bodyStyle={{ maxHeight: height - 100, overflowY: "auto" }}
+      title={t(`employee-form-${isEdit ? "edit" : "add"}-title`)}
       visible={modalOpen}
       footer={null}
     >
@@ -114,124 +117,125 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
         <Form.Item
           name="bankId"
           tooltip={{
-            title: "The bank Name / ID",
+            title: t("bank-id-tooltip"),
             icon: <InfoCircleOutlined />,
           }}
-          label="Bank ID"
-          rules={[{ required: true }]}
+          label={t("bank-id-label")}
+          rules={[{ required: true, message: t("messages-field-is-required") }]}
         >
-          <Select options={bankOptions} placeholder="Select bank" />
+          <Select
+            options={bankOptions}
+            placeholder={t("bank-id-placeholder")}
+          />
         </Form.Item>
         <Form.Item
           name="branchId"
           tooltip={{
-            title: "The branch ID",
+            title: t("branch-id-tooltip"),
             icon: <InfoCircleOutlined />,
           }}
-          label="Branch ID"
+          label={t("branch-id-label")}
           rules={[
-            { required: true },
-            { max: 3, message: "Can't be longer than 3 digits" },
+            { required: true, message: t("messages-field-is-required") },
+            { max: 3, message: t("messages-max-3-digits") },
           ]}
         >
           <AutoComplete
             options={branchoptions}
             onSearch={onSearch}
-            placeholder="Start typing branch number"
+            placeholder={t("branch-id-placeholder")}
           />
         </Form.Item>
         <Form.Item
           name="accountId"
           tooltip={{
-            title: "The payee's bank account number",
+            title: t("account-id-tooltip"),
             icon: <InfoCircleOutlined />,
           }}
-          label="Account Number"
+          label={t("account-id-label")}
           rules={[
-            { required: true },
-            { max: 9, message: "Can't be longer than 9 digits" },
+            { required: true, message: t("messages-field-is-required") },
+            { max: 9, message: t("messages-max-9-digits") },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 const bankId = getFieldValue("bankId");
                 const branchId = getFieldValue("branchId");
                 const result = validateBankAccount(
-                  bankId,
-                  branchId,
+                  bankId || "",
+                  branchId || "",
                   value || ""
                 );
                 if (!value || result !== RESULT.NOT_VALID) {
                   return Promise.resolve();
                 }
                 return Promise.reject(
-                  new Error(
-                    "The bank details looks invalid. Make sure to check it"
-                  )
+                  new Error(t("messages-invalid-bank-details"))
                 );
               },
             }),
           ]}
         >
-          <Input placeholder="000000" />
+          <Input placeholder={t("account-id-placeholder")} />
         </Form.Item>
         <Form.Item
           name="payeeId"
           tooltip={{
-            title: "The payee's personal ID",
+            title: t("payee-id-tooltip"),
             icon: <InfoCircleOutlined />,
           }}
-          label="Payee ID"
+          label={t("payee-id-label")}
           required
           rules={[
-            { max: 9, message: "Can't be longer than 9 digits" },
+            { required: true, message: t("messages-field-is-required") },
+            { max: 9, message: t("messages-max-9-digits") },
             () => ({
               validator(_, value) {
                 const valid = isIsraeliIdValid(value);
                 if (!value || valid) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error("The ID is not a valid ID!"));
+                return Promise.reject(new Error(t("messages-invalid-id")));
               },
             }),
           ]}
         >
-          <Input placeholder="000000000" />
+          <Input placeholder={t("payee-id-placeholder")} />
         </Form.Item>
         <Form.Item
           name="payeeName"
           tooltip={{
-            title: "The payee's name (Should be in Hebrew)",
+            title: t("payee-name-tooltip"),
             icon: <InfoCircleOutlined />,
           }}
-          label="Payee Name"
+          label={t("payee-name-label")}
           rules={[
-            { required: true },
-            { max: 16, message: "Can't be longer than 16 characters" },
+            { required: true, message: t("messages-field-is-required") },
+            { max: 16, message: t("messages-max-16-digits") },
           ]}
         >
-          <Input placeholder="Enter payee name" />
+          <Input placeholder={t("payee-name-placeholder")} />
         </Form.Item>
         <Form.Item
           name="payeeNumber"
           tooltip={{
-            title: "The payee's employee number",
+            title: t("employee-number-tooltip"),
             icon: <InfoCircleOutlined />,
           }}
-          label="Payee Employee Number"
-          rules={[{ max: 20, message: "Can't be longer than 20 digits" }]}
+          label={t("employee-number-label")}
+          rules={[{ max: 20, message: t("messages-max-20-digits") }]}
         >
-          <Input placeholder="0000" />
+          <Input placeholder={t("employee-number-placeholder")} />
         </Form.Item>
         <Form.Item
           name="amount"
           tooltip={{
-            title:
-              "Amount to transfer in ILS (₪) (Up to 2 digits after decimal)",
+            title: t("amount-tooltip"),
             icon: <InfoCircleOutlined />,
           }}
-          label="Amount (₪)"
-          rules={[{ required: true }]}
+          label={t("amount-label")}
+          rules={[{ required: true, message: t("messages-field-is-required") }]}
         >
-          <InputNumber placeholder="0.00 ₪" />
+          <InputNumber placeholder={t("amount-placeholder")} />
         </Form.Item>
         <Form.Item>
           <Button
@@ -241,7 +245,7 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
             shape="round"
             htmlType="button"
           >
-            {isEdit ? "Save Changes" : "Add Transaction"}
+            {t(`employee-form-${isEdit ? "edit" : "add"}-button`)}
           </Button>
         </Form.Item>
       </Form>

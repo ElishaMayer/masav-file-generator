@@ -3,14 +3,26 @@ import { v4 } from "uuid";
 
 const ExcelJS = require("exceljs");
 
-export const uploadFromExcel = async (buffer) => {
+const extractFile = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async () => resolve(reader.result);
+    reader.readAsArrayBuffer(file);
+    reader.onerror = (e) => reject(e);
+  });
+
+export const uploadFromExcel = async (file, t) => {
+  const tt = (str) => t(`translation:${str}`);
   try {
+    const buffer = await extractFile(file);
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.load(buffer);
     const worksheet = workbook.worksheets[0];
     if (!worksheet) throw new Error("no sheets");
     let validRow = true;
     let rowNum = 2;
+    let valid = 0,
+      fail = 0;
     const transactions = [];
     while (validRow) {
       const row = worksheet.getRow(rowNum);
@@ -36,13 +48,26 @@ export const uploadFromExcel = async (buffer) => {
           payeeNumber,
           key,
         });
+        valid++;
+      } else {
+        fail++;
       }
     }
+    fail--;
+    Modal.info({
+      title: tt("imported-form-") + file.name,
+      content:
+        tt("successfully-imported-") +
+        valid +
+        tt("-transactions-") +
+        (fail ? tt("failed-to-import-") + fail + tt("-transactions-") : ""),
+    });
     return transactions;
   } catch (e) {
+    console.error(e);
     Modal.error({
-      title: "Error opening file",
-      content: "Make sure it's a valid excel file",
+      title: tt("error-opening-file"),
+      content: tt("error-opening-file-content"),
     });
     return [];
   }
