@@ -19,8 +19,7 @@ export const MainPage = () => {
           &nbsp;
           <a target="_blank" href="https://www.masav.co.il/">
             {t("masav")}
-          </a>
-          &nbsp; {t("para-2")}
+          </a>{t("para-2")}
         </Paragraph>
       </Typography>
       <Button

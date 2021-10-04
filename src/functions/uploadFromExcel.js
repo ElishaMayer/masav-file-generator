@@ -1,5 +1,6 @@
 import { Modal } from "antd";
 import { v4 } from "uuid";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 const ExcelJS = require("exceljs");
 
@@ -62,6 +63,12 @@ export const uploadFromExcel = async (file, t) => {
         tt("-transactions-") +
         (fail ? tt("failed-to-import-") + fail + tt("-transactions-") : ""),
     });
+    try {
+      const analytics = getAnalytics();
+      logEvent(analytics, "excel_upload", { fail, valid });
+    } catch (e) {
+      console.log(e);
+    }
     return transactions;
   } catch (e) {
     console.error(e);

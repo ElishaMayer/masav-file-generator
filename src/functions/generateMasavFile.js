@@ -5,6 +5,7 @@ import {
   SendPaymentsRecord,
 } from "masav";
 import moment from "moment";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 export const generateMasavFile = ({ institution, transactions }, t) => {
   const tt = (str) => t(`translation:${str}`);
@@ -98,4 +99,10 @@ export const generateMasavFile = ({ institution, transactions }, t) => {
   link.href = window.URL.createObjectURL(blob);
   link.download = `msv.${institution.serialNumber}`;
   link.click();
+  try {
+    const analytics = getAnalytics();
+    logEvent(analytics, "masav_exported", { length: transactions.length });
+  } catch (e) {
+    console.log(e);
+  }
 };
