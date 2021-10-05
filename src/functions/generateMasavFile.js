@@ -6,6 +6,7 @@ import {
 } from "masav";
 import moment from "moment";
 import { getAnalytics, logEvent } from "firebase/analytics";
+import JSZip from "jszip";
 
 export const generateMasavFile = ({ institution, transactions }, t) => {
   const tt = (str) => t(`translation:${str}`);
@@ -94,11 +95,18 @@ export const generateMasavFile = ({ institution, transactions }, t) => {
     }
   );
   masavFile.addInstitution(masav_institution);
-  var blob = new Blob([masavFile.toBuffer()], { type: "application/octet-stream" });
-  var link = document.createElement("a");
-  link.href = window.URL.createObjectURL(blob);
-  link.download = `msv.${institution.serialNumber}`;
-  link.click();
+  var blob = new Blob([masavFile.toBuffer()], {
+    type: "application/octet-stream",
+  });
+  var zip = new JSZip();
+  zip.file(`msv.${institution.serialNumber}`, blob);
+  zip.generateAsync({ type: "blob" }).then(function (content) {
+    var link = document.createElement("a");
+    link.href = window.URL.createObjectURL(content);
+    link.download = `msv-${institution.serialNumber}.zip`;
+    link.click();
+  });
+
   try {
     const analytics = getAnalytics();
     logEvent(analytics, "masav_exported", { length: transactions.length });
