@@ -16,10 +16,11 @@ import { PayeeForm } from "../elements/PayeeForm";
 import { v4 } from "uuid";
 import { RESULT, validateBankAccount } from "israeli-bank-validation";
 import isIsraeliIdValid from "israeli-id-validator";
-import { useWindowHeight } from "@react-hook/window-size";
+import { useWindowHeight, useWindowWidth } from "@react-hook/window-size";
 import { generateMasavFile } from "../functions/generateMasavFile";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
+import { MODILE_BREAK } from "../constatns/constants";
 
 const ValidatedField = ({ text, tooltip, icon }) => {
   return (
@@ -95,6 +96,7 @@ const getTransactionFromStorage = () => {
 };
 export const OnlineConvertor = () => {
   const height = useWindowHeight();
+  const width = useWindowWidth();
   const { t } = useTranslation("online-convertor");
   const modalRef = useRef();
   const [transactions, settransactions] = useState(getTransactionFromStorage());
@@ -158,7 +160,16 @@ export const OnlineConvertor = () => {
         subTitle={t("sub-title")}
       />
       <InstitutionForm onDataChange={setinstitution} />
-      <Space style={{ width: "100%", height: "80px" }}>
+      <Space
+        style={{
+          width: "100%",
+          height: width > MODILE_BREAK ? "80px" : "",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          marginBottom: width < MODILE_BREAK ? "10px" : "",
+        }}
+      >
         <Button
           type="primary"
           size="large"
@@ -208,8 +219,8 @@ export const OnlineConvertor = () => {
         </Button>
       </Space>
       <Table
-        style={{ minWidth: "800px" }}
-        scroll={{ y: height - 386 }}
+        style={{ minWidth: width - 100 }}
+        scroll={{ y: height - 386, x: 800 }}
         dataSource={transactions}
         columns={[...columns(t), actionsColumn]}
         summary={() => (

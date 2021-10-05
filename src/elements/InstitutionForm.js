@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { isEqual } from "lodash";
 import { useTranslation } from "react-i18next";
+import { useWindowWidth } from "@react-hook/window-size";
+import { MODILE_BREAK } from "../constatns/constants";
 
 const layout = {
   labelCol: { span: 100 },
@@ -20,6 +22,8 @@ const defaultValues = {
 export const InstitutionForm = ({ onGenerateFileClick, onDataChange }) => {
   const { t } = useTranslation("online-convertor");
   const [form] = Form.useForm();
+  const width = useWindowWidth();
+
   const [institueDetals, setinstitueDetals] = useState({
     institutionId: "",
     institutionName: "",
@@ -50,7 +54,7 @@ export const InstitutionForm = ({ onGenerateFileClick, onDataChange }) => {
       {...layout}
       form={form}
       name="control-hooks"
-      layout="inline"
+      layout={width > MODILE_BREAK ? "inline" : "vertical"}
       onValuesChange={onValuesChange}
     >
       <Form.Item

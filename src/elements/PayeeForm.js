@@ -16,8 +16,9 @@ import {
 import isIsraeliIdValid from "israeli-id-validator";
 import { validateBankAccount, RESULT } from "israeli-bank-validation";
 import Modal from "antd/lib/modal/Modal";
-import { useWindowHeight } from "@react-hook/window-size";
+import { useWindowHeight, useWindowWidth } from "@react-hook/window-size";
 import { useTranslation } from "react-i18next";
+import { MODILE_BREAK } from "../constatns/constants";
 
 const bankOptions = getAllBanks().map((bank) => ({
   label: `${bank.bankCode} - ${bank.bankName}`,
@@ -58,6 +59,8 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
   const [branchoptions, setbranchoptions] = useState([]);
   const [modalOpen, setmodalOpen] = useState(false);
   const height = useWindowHeight();
+  const width = useWindowWidth();
+
   const [form] = Form.useForm();
   const [fieldsValid, setfieldsValid] = useState(false);
 
@@ -97,12 +100,16 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
   }));
   return (
     <Modal
+      className="full-screen"
       onCancel={() => {
         form.resetFields();
         setmodalOpen(false);
       }}
       style={{ top: 20 }}
-      bodyStyle={{ maxHeight: height - 100, overflowY: "auto" }}
+      bodyStyle={{
+        maxHeight: height - (width < MODILE_BREAK ? 20 : 100),
+        overflowY: "auto",
+      }}
       title={t(`employee-form-${isEdit ? "edit" : "add"}-title`)}
       visible={modalOpen}
       footer={null}

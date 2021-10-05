@@ -8,12 +8,14 @@ import {
 import { useHistory } from "react-router-dom";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
+import { useWindowWidth } from "@react-hook/window-size";
 const { Dragger } = Upload;
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 export const ExcelToMasav = () => {
   const history = useHistory();
+  const width = useWindowWidth();
   const { t } = useTranslation("conver-from-excel");
   return (
     <div>
@@ -30,7 +32,11 @@ export const ExcelToMasav = () => {
         <Image src="/excel-example.png" alt="Excel example screenshot" />
       </Typography>
       <Dragger
-        style={{ width: "600px", margin: "auto", marginTop: "100px" }}
+        style={{
+          width: `${Math.min(width - 80, 600)}px`,
+          margin: "auto",
+          marginTop: "100px",
+        }}
         name="file"
         accept=".xlsx"
         showUploadList={false}
