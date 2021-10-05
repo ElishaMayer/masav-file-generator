@@ -94,7 +94,7 @@ export const generateMasavFile = ({ institution, transactions }, t) => {
     }
   );
   masavFile.addInstitution(masav_institution);
-  var blob = new Blob([masavFile.toBuffer()], { type: "application/masav" });
+  var blob = new Blob([masavFile.toBuffer()], { type: "application/octet-stream" });
   var link = document.createElement("a");
   link.href = window.URL.createObjectURL(blob);
   link.download = `msv.${institution.serialNumber}`;
