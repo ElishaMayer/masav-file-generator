@@ -162,6 +162,7 @@ export const OnlineConvertor = () => {
       <InstitutionForm onDataChange={setinstitution} />
       <Space
         style={{
+          gap: 0,
           width: "100%",
           height: width > MODILE_BREAK ? "80px" : "",
           display: "flex",
@@ -171,6 +172,7 @@ export const OnlineConvertor = () => {
         }}
       >
         <Button
+          style={{ margin: "4px 0px" }}
           type="primary"
           size="large"
           shape="circle"
@@ -178,6 +180,7 @@ export const OnlineConvertor = () => {
           icon={<PlusOutlined />}
         ></Button>
         <Button
+          style={{ margin: "4px 0px" }}
           type="primary"
           size="large"
           shape="round"
@@ -197,6 +200,7 @@ export const OnlineConvertor = () => {
           }}
         >
           <Button
+            style={{ margin: "4px 0px" }}
             type="primary"
             size="large"
             shape="round"
@@ -205,10 +209,11 @@ export const OnlineConvertor = () => {
             {t("import-excel")}
           </Button>
         </Upload>
-        <a download href="/example.xlsx">
+        <a style={{ margin: "4px 0px" }} download href="/example.xlsx">
           {t("example-file-link")}
         </a>
         <Button
+          style={{ margin: "4px 0px" }}
           type="primary"
           size="large"
           shape="round"
