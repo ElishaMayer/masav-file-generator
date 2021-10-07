@@ -7,8 +7,58 @@ import {
 import moment from "moment";
 import { getAnalytics, logEvent } from "firebase/analytics";
 import JSZip from "jszip";
+import i18next from "i18next";
 
-export const generateMasavFile = ({ institution, transactions }, t) => {
+const showSummery = (institution, transactions, t) =>
+  new Promise((resolve) => {
+    Modal.confirm({
+      title: t("masav-file-summery"),
+      icon: null,
+      bodyStyle: { direction: t("translation:direction") },
+      content: (
+        <div>
+          <p>
+            <b>{t("institution-id-label")}</b>: {institution.institutionId}
+          </p>
+          <p>
+            <b>{t("sending-institution-id-label")}</b>:{" "}
+            {institution.sendingInstitutionId}
+          </p>
+          <p>
+            <b>{t("institution-name-label")}</b>: {institution.institutionName}
+          </p>
+          <p>
+            <b>{t("file-name")}</b>: {`msv.${institution.serialNumber}`}
+          </p>
+          <p>
+            <b>{t("number-of-transactions")}</b>: {transactions.length}
+          </p>
+          <p>
+            <b>{t("amount")}</b>:{" "}
+            {new Intl.NumberFormat("il-IL", {
+              style: "currency",
+              currency: "ILS",
+            }).format(
+              transactions
+                .map((trans) => trans.amount)
+                .reduce((a, b) => a + b, 0)
+            )}
+          </p>
+          <p>{t("masav-file-zip-explanation")}</p>
+        </div>
+      ),
+      okText: t("download"),
+      cancelText: t("translation:cancel"),
+      onCancel() {
+        resolve(false);
+      },
+      onOk() {
+        resolve(true);
+      },
+    });
+  });
+
+export const generateMasavFile = async ({ institution, transactions }, t) => {
   const tt = (str) => t(`translation:${str}`);
   const messages = [];
   if (!institution.institutionId.match(/^\d{8}$/))
@@ -50,6 +100,8 @@ export const generateMasavFile = ({ institution, transactions }, t) => {
   );
   if (messages.length) {
     Modal.error({
+      bodyStyle: { direction: t("translation:direction") },
+      okText: t("translation:ok"),
       title: tt("masav-file-errors"),
       content: (
         <ul>
@@ -61,6 +113,8 @@ export const generateMasavFile = ({ institution, transactions }, t) => {
     });
     return;
   }
+  const result = await showSummery(institution, transactions, t);
+  if (!result) return;
 
   let masavFile = new MasaVSendPayments();
   let masav_institution = new InstitutionSendPayment(

@@ -9,5 +9,5 @@ export const getLanguageCode = () => {
   if (["he", "en"].includes(lngFromStorage)) {
     return lngFromStorage;
   }
-  return undefined;
+  return "he";
 };

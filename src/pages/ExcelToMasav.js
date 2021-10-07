@@ -33,7 +33,7 @@ export const ExcelToMasav = () => {
       </Typography>
       <Dragger
         style={{
-          width: `${Math.min(width - 80, 600)}px`,
+          width: `${Math.min(width - 100, 600)}px`,
           margin: "auto",
           marginTop: "100px",
         }}

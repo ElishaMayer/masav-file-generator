@@ -21,6 +21,8 @@ import { generateMasavFile } from "../functions/generateMasavFile";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
 import { MODILE_BREAK } from "../constatns/constants";
+import { showWarning } from "../functions/showWarning";
+import { generateExcelFile } from "../functions/generateExcelFile";
 
 const ValidatedField = ({ text, tooltip, icon }) => {
   return (
@@ -139,8 +141,12 @@ export const OnlineConvertor = () => {
           <Button
             type="text"
             onClick={() =>
-              settransactions((state) =>
-                state.filter((row) => row.key !== record.key)
+              showWarning("about-to-delete-row").then((res) =>
+                res
+                  ? settransactions((state) =>
+                      state.filter((row) => row.key !== record.key)
+                    )
+                  : null
               )
             }
           >
@@ -184,7 +190,11 @@ export const OnlineConvertor = () => {
           type="primary"
           size="large"
           shape="round"
-          onClick={() => settransactions([])}
+          onClick={() =>
+            showWarning("about-to-delete-all").then((res) =>
+              res ? settransactions([]) : null
+            )
+          }
           icon={<DeleteOutlined />}
         >
           {t("delete-all-button")}
@@ -222,10 +232,34 @@ export const OnlineConvertor = () => {
         >
           {t("download-file-button")}
         </Button>
+        <Button
+          style={{ margin: "4px 0px" }}
+          type="primary"
+          size="large"
+          shape="round"
+          onClick={() => generateExcelFile(transactions, t)}
+          icon={<DownloadOutlined />}
+        >
+          {t("download-excel-button")}
+        </Button>
       </Space>
       <Table
+        size="small"
+        locale={{
+          emptyText: (
+            <Button
+              onClick={() => modalRef.current.addRow()}
+              icon={<PlusOutlined />}
+              type="primary"
+              size="large"
+              shape="round"
+            >
+              {t("add-new-transaction")}
+            </Button>
+          ),
+        }}
         style={{ minWidth: width - 100 }}
-        scroll={{ y: height - 386, x: 800 }}
+        scroll={{ y: height - 0, x: 800 }}
         dataSource={transactions}
         columns={[...columns(t), actionsColumn]}
         summary={() => (

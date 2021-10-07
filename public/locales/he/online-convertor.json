@@ -69,5 +69,19 @@
 
   "amount-label": "סכום (₪)",
   "amount-tooltip": "סכום להעברה בשקלים (₪) (עד 2 ספרות אחרי הנקודה)",
-  "amount-placeholder": "00.0 ₪"
+  "amount-placeholder": "00.0 ₪",
+  "add-new-transaction": "הוסף העברה חדש",
+  "download-excel-button": "הורד קובץ אקסל",
+  "number-of-transactions": "מספר העברות",
+  "file-name": "שם קובץ",
+  "masav-file-summery": "סיכום קובץ מס\"ב",
+  "download": "הורד קובץ",
+  "masav-file-zip-explanation": "הקובץ שירד הינו קובץ ארכיון (ZIP) שמכיל את הקובץ מס\"ב. יש לחלץ את הקובץ לפני השידור למס\"ב.",
+  "excel-col-1": "תעודת זהות",
+  "excel-col-2": "שם מלא",
+  "excel-col-3": "מספר בנק",
+  "excel-col-4": "מספר סניף",
+  "excel-col-5": "מספר חשבון",
+  "excel-col-6": "סכום",
+  "excel-col-7": "מזהה עובד"
 }

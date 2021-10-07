@@ -64,33 +64,36 @@ const App = () => {
   }, []);
   return (
     <Router>
-      <Layout>
-        <MenuComponent />
-        <Content
-          style={{
-            padding: "0 50px",
-            height: "calc(100vh - 80px",
-            overflowY: "scroll",
-          }}
-        >
-          <Switch>
-            <Route path="/convert-excel">
-              <ExcelToMasav />
-            </Route>
-            <Route path="/online-builder">
-              <OnlineConvertor />
-            </Route>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/">
-              <MainPage />
-            </Route>
-          </Switch>
-        </Content>
-        <Footer style={{ textAlign: "center", padding: "5px" }}>
+      <Layout
+        style={{
+          height: "100vh",
+          overflowY: "auto",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>
+          <MenuComponent />
+          <div style={{ padding: "0 50px" }}>
+            <Switch>
+              <Route path="/convert-excel">
+                <ExcelToMasav />
+              </Route>
+              <Route path="/online-builder">
+                <OnlineConvertor />
+              </Route>
+              <Route path="/about">
+                <About />
+              </Route>
+              <Route path="/">
+                <MainPage />
+              </Route>
+            </Switch>
+          </div>
+        </div>
+        <footer style={{ textAlign: "center", padding: "5px" }}>
           {t("credits") + " v" + pack.version}
-        </Footer>
+        </footer>
       </Layout>
     </Router>
   );

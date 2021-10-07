@@ -1,6 +1,7 @@
 import { Modal } from "antd";
 import { v4 } from "uuid";
 import { getAnalytics, logEvent } from "firebase/analytics";
+import i18next from "i18next";
 
 const ExcelJS = require("exceljs");
 
@@ -56,6 +57,8 @@ export const uploadFromExcel = async (file, t) => {
     }
     fail--;
     Modal.info({
+      bodyStyle: { direction: i18next.t("direction") },
+      okText: i18next.t("ok"),
       title: tt("imported-form-") + file.name,
       content:
         tt("successfully-imported-") +
