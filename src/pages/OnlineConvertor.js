@@ -250,7 +250,6 @@ export const OnlineConvertor = () => {
             <Button
               onClick={() => modalRef.current.addRow()}
               icon={<PlusOutlined />}
-              type="primary"
               size="large"
               shape="round"
             >
