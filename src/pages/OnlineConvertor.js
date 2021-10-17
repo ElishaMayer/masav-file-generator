@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
 import { MODILE_BREAK } from "../constatns/constants";
 import { showWarning } from "../functions/showWarning";
 import { generateExcelFile } from "../functions/generateExcelFile";
+import { getPCID, hasLisence, isElectron, saveLisence } from "../isElectron";
 
 const ValidatedField = ({ text, tooltip, icon }) => {
   return (
@@ -97,6 +98,7 @@ const getTransactionFromStorage = () => {
   );
 };
 export const OnlineConvertor = () => {
+  const [lisence, setlisence] = useState("PREMIUM");
   const height = useWindowHeight();
   const width = useWindowWidth();
   const { t } = useTranslation("online-convertor");
@@ -109,6 +111,9 @@ export const OnlineConvertor = () => {
       JSON.stringify(transactions)
     );
   }, [transactions]);
+  useEffect(() => {
+    hasLisence().then(setlisence);
+  }, []);
   const onFormFinishClick = useCallback(
     (fields, isEdit) => {
       if (isEdit) {
@@ -157,12 +162,24 @@ export const OnlineConvertor = () => {
     }),
     [settransactions, modalRef]
   );
-
+  console.log(lisence);
   return (
     <div>
       <PageHeader
         onBack={() => history.push("/")}
-        title={t("title")}
+        title={
+          <span>
+            {t("title")}
+            {isElectron && lisence !== "PREMIUM" ? (
+              <span>
+                {" - "}
+                <span style={{ color: "orangered" }}>{t("free-version")}</span>
+              </span>
+            ) : (
+              ""
+            )}
+          </span>
+        }
         subTitle={t("sub-title")}
       />
       <InstitutionForm onDataChange={setinstitution} />
@@ -170,11 +187,10 @@ export const OnlineConvertor = () => {
         style={{
           gap: 0,
           width: "100%",
-          height: width > MODILE_BREAK ? "80px" : "",
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          marginBottom: width < MODILE_BREAK ? "10px" : "",
+          margin: "10px 0",
         }}
       >
         <Button
@@ -182,7 +198,21 @@ export const OnlineConvertor = () => {
           type="primary"
           size="large"
           shape="circle"
-          onClick={() => modalRef.current.addRow()}
+          onClick={() => {
+            if (
+              isElectron &&
+              lisence !== "PREMIUM" &&
+              transactions.length >= 5
+            ) {
+              Modal.warn({
+                bodyStyle: { direction: t("translation:direction") },
+                title: t("translation:free-version-warn-title"),
+                content: t("translation:free-version-warn-desc"),
+              });
+              return;
+            }
+            modalRef.current.addRow();
+          }}
           icon={<PlusOutlined />}
         ></Button>
         <Button
@@ -205,7 +235,18 @@ export const OnlineConvertor = () => {
           showUploadList={false}
           beforeUpload={async (file) => {
             const state = await uploadFromExcel(file, t);
-            settransactions((old) => [...old, ...state]);
+            settransactions((old) => {
+              let newState = [...old, ...state];
+              if (isElectron && lisence !== "PREMIUM" && newState.length > 5) {
+                newState = newState.slice(0, 5);
+                Modal.warn({
+                  bodyStyle: { direction: t("translation:direction") },
+                  title: t("free-version-warn-title"),
+                  content: t("free-version-warn-desc"),
+                });
+              }
+              return newState;
+            });
             return false;
           }}
         >

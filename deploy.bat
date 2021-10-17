@@ -1,3 +1,6 @@
+call node configPackagesFile.js web
+call git add package.json
+call git commit -m "pre-deploy-web"
 call npm version patch
 call npm run build
 call RMDIR "hosting/public" /S /Q

@@ -33,5 +33,7 @@
   "about-to-delete-row": "You are about to delete a row, are you sure?",
   "ok": "Ok",
   "cancel": "Cancel",
-  "direction": "ltr"
+  "direction": "ltr",
+  "free-version-warn-desc": "This is a free version, you can't use more that 5 transactions",
+  "free-version-warn-title": "This is a free version"
 }

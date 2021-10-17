@@ -16,6 +16,7 @@ import { ExcelToMasav } from "./pages/ExcelToMasav";
 import { ReactComponent as Logo } from "./logo.svg";
 import { useTranslation } from "react-i18next";
 import pack from "../package.json";
+import { isElectron } from "./isElectron";
 
 const { Header, Content, Footer } = Layout;
 
@@ -47,9 +48,23 @@ const MenuComponent = withRouter(({ history }) => {
           <Link to="/about">{t("about")}</Link>
         </Menu.Item>
         <Menu.Item key={"/lang"}>
-          <a href={`${window.location.pathname}?lang=${t("other-lang-code")}`}>
-            {t("other-lang")}
-          </a>
+          {isElectron ? (
+            <Button
+              style={{ background: "none", border: "none", color: "#fff" }}
+              onClick={() => {
+                localStorage.setItem("@language", t("other-lang-code"));
+                window.location.reload();
+              }}
+            >
+              {t("other-lang")}
+            </Button>
+          ) : (
+            <a
+              href={`${window.location.pathname}?lang=${t("other-lang-code")}`}
+            >
+              {t("other-lang")}
+            </a>
+          )}
         </Menu.Item>
       </Menu>
     </>

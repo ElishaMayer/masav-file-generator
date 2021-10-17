@@ -83,5 +83,8 @@
   "excel-col-4": "מספר סניף",
   "excel-col-5": "מספר חשבון",
   "excel-col-6": "סכום",
-  "excel-col-7": "מזהה עובד"
+  "excel-col-7": "מזהה עובד",
+  "free-version": "Free version",
+  "free-version-warn-desc": "This is a free version, you can't use more that 5 transactions",
+  "free-version-warn-title": "This is a free version"
 }

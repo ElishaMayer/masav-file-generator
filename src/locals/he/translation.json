@@ -33,5 +33,7 @@
   "about-to-delete-row": "את/ה עומד/ת למחוק שורה. האם אתה בטוח/ה?",
   "ok": "מאשר",
   "cancel": "בטל",
-  "direction": "rtl"
+  "direction": "rtl",
+  "free-version-warn-desc": "בגירסא זו ניתן לעבוד עם עד 5 רשומות. לא ניתן לייבא יותר מ5 רשומות",
+  "free-version-warn-title": "זה גרסת נסיון חינמית"
 }

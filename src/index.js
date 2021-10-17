@@ -11,7 +11,8 @@ import "./i18Next";
 import { Skeleton } from "antd";
 import { ConfigProvider } from "antd";
 import { getLanguageCode } from "./functions/getLanguageCode";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { isElectron } from "./isElectron";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCyc2BK0sp2gL6VN0eQ3QyBOnZytHqlZUY",
@@ -29,9 +30,11 @@ getAnalytics(app);
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<Skeleton />}>
-      <CookieConsent>
-        This website uses cookies to enhance the user experience.
-      </CookieConsent>
+      {!isElectron && (
+        <CookieConsent>
+          This website uses cookies to enhance the user experience.
+        </CookieConsent>
+      )}
       <ErrorBoundary>
         <ConfigProvider direction={getLanguageCode() === "he" ? "rtl" : "ltr"}>
           <App />
@@ -50,4 +53,5 @@ reportWebVitals();
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
+if (isElectron) serviceWorkerRegistration.unregister();
+else serviceWorkerRegistration.register();
