@@ -20,10 +20,9 @@ import { useWindowHeight, useWindowWidth } from "@react-hook/window-size";
 import { generateMasavFile } from "../functions/generateMasavFile";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
-import { MODILE_BREAK } from "../constatns/constants";
 import { showWarning } from "../functions/showWarning";
 import { generateExcelFile } from "../functions/generateExcelFile";
-import { getPCID, hasLisence, isElectron, saveLisence } from "../isElectron";
+import { hasLisence, isElectron } from "../isElectron";
 
 const ValidatedField = ({ text, tooltip, icon }) => {
   return (

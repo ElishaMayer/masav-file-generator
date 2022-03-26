@@ -1,8 +1,11 @@
 const { ipcMain } = require("electron");
 const fs = require("fs");
+const path = require("path");
 const { verify } = require("jsonwebtoken");
 const exec = require("child_process").exec;
 const { createHash } = require("crypto");
+const homedir = require('os').homedir();
+
 const run = (cmd) =>
   new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderror) => {
@@ -29,14 +32,16 @@ const getPCID = () =>
 const initLisence = () => {
   ipcMain.handle("check-license", async (event, ...args) => {
     try {
-      if (!fs.existsSync(`${process.env.HOME}/.masav-file-generator/data`)) {
+      if (!fs.existsSync(`${homedir}/.masav-file-generator/data`)) {
         return "FREE";
       }
       const token = fs.readFileSync(
-        `${process.env.HOME}/.masav-file-generator/data`,
+        `${homedir}/.masav-file-generator/data`,
         { encoding: "utf-8" }
       );
-      const cert = fs.readFileSync("jwtRS256.key.pub", { encoding: "utf-8" });
+      const cert = fs.readFileSync(path.join(__dirname, "jwtRS256.key.pub"), {
+        encoding: "utf-8",
+      });
       const result = verify(token, cert);
       if (result.lisence === (await getPCID())) return "PREMIUM";
       console.log(result);
@@ -48,26 +53,31 @@ const initLisence = () => {
 
   ipcMain.handle("add-license", async (event, lisence) => {
     try {
-      if (!fs.existsSync(`${process.env.HOME}/.masav-file-generator/data`)) {
+      if (!fs.existsSync(`${homedir}/.masav-file-generator/data`)) {
         try {
-          fs.mkdirSync(`${process.env.HOME}/.masav-file-generator/`);
+          fs.mkdirSync(`${homedir}/.masav-file-generator/`);
         } catch (e) {}
       }
-      const cert = fs.readFileSync("jwtRS256.key.pub", { encoding: "utf-8" });
+      const cert = fs.readFileSync(path.join(__dirname, "jwtRS256.key.pub"), {
+        encoding: "utf-8",
+      });
       const result = verify(lisence, cert);
       if (result.lisence === (await getPCID())) {
         fs.writeFileSync(
-          `${process.env.HOME}/.masav-file-generator/data`,
+          `${homedir}/.masav-file-generator/data`,
           lisence,
           {
             encoding: "utf-8",
           }
         );
-        return true;
+        return { success: true };
       }
-      return false;
+      return {
+        success: false,
+        error: `invalid lisence file=${result.lisence} pid=${await getPCID()}`,
+      };
     } catch (e) {
-      return false;
+      return { success: false, error: e.message };
     }
   });
 

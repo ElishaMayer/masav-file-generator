@@ -89,9 +89,10 @@ export const MainPage = () => {
               beforeUpload={async (file) => {
                 const cert = await extractFile(file);
                 const res = await saveLisence(cert);
-                if (!res) {
+                if (!res.success) {
                   Modal.error({
                     title: t("invalid-lisence"),
+                    content: res.error,
                     okText: t("translation:ok"),
                     bodyStyle: { direction: t("translation:direction") },
                   });
