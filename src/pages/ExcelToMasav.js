@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
 import { useWindowWidth } from "@react-hook/window-size";
+import { saveInStorage } from "../functions/helpers";
 const { Dragger } = Upload;
 
 const { Title, Paragraph, Text, Link } = Typography;
@@ -42,10 +43,7 @@ export const ExcelToMasav = () => {
         showUploadList={false}
         beforeUpload={async (file) => {
           const state = await uploadFromExcel(file, t);
-          localStorage.setItem(
-            "@online-editor/transactions-state",
-            JSON.stringify(state)
-          );
+          saveInStorage("transactions-state", JSON.stringify(state));
           history.push("/online-builder");
           return false;
         }}

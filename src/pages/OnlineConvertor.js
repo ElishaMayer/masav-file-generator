@@ -1,4 +1,13 @@
-import { Button, PageHeader, Modal, Space, Table, Tooltip, Upload } from "antd";
+import {
+  Button,
+  PageHeader,
+  Modal,
+  Space,
+  Table,
+  Tooltip,
+  Upload,
+  Switch,
+} from "antd";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -23,6 +32,7 @@ import { useTranslation } from "react-i18next";
 import { MODILE_BREAK } from "../constatns/constants";
 import { showWarning } from "../functions/showWarning";
 import { generateExcelFile } from "../functions/generateExcelFile";
+import { saveInStorage } from "../functions/helpers";
 
 const ValidatedField = ({ text, tooltip, icon }) => {
   return (
@@ -91,11 +101,13 @@ const columns = (t) => [
       }).format(amount)}`,
   },
 ];
+
 const getTransactionFromStorage = () => {
   return JSON.parse(
     localStorage.getItem("@online-editor/transactions-state") || "[]"
   );
 };
+
 export const OnlineConvertor = () => {
   const height = useWindowHeight();
   const width = useWindowWidth();
@@ -103,11 +115,22 @@ export const OnlineConvertor = () => {
   const modalRef = useRef();
   const [transactions, settransactions] = useState(getTransactionFromStorage());
   const [institution, setinstitution] = useState(null);
+  const [saveData, setSaveData] = useState(
+    localStorage.getItem("@online-editor/save-data") !== "false"
+  );
   useEffect(() => {
     localStorage.setItem(
-      "@online-editor/transactions-state",
-      JSON.stringify(transactions)
+      "@online-editor/save-data",
+      saveData ? "true" : "false"
     );
+    if (!saveData) {
+      localStorage.removeItem("@online-editor/transactions-state");
+      localStorage.removeItem("@online-editor/institution-state");
+    }
+  }, [saveData]);
+
+  useEffect(() => {
+    saveInStorage("transactions-state", JSON.stringify(transactions));
   }, [transactions]);
   const onFormFinishClick = useCallback(
     (fields, isEdit) => {
@@ -242,6 +265,14 @@ export const OnlineConvertor = () => {
         >
           {t("download-excel-button")}
         </Button>
+        <Tooltip title={t("save-offile-data-tooltip")}>
+          <Switch
+            checkedChildren={t("save-offile-data-true")}
+            unCheckedChildren={t("save-offile-data-false")}
+            checked={saveData}
+            onChange={(checked) => setSaveData(checked)}
+          />
+        </Tooltip>
       </Space>
       <Table
         size="small"

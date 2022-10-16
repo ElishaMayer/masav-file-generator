@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, Tag } from "antd";
 import {
   InstitutionSendPayment,
   MasaVSendPayments,
@@ -45,6 +45,9 @@ const showSummery = (institution, transactions, t) =>
             )}
           </p>
           <p>{t("masav-file-zip-explanation")}</p>
+          <Tag style={{ whiteSpace: "break-spaces", margin: 0 }} color="orange">
+            {t("masav-file-zip-warning")}
+          </Tag>
         </div>
       ),
       okText: t("download"),

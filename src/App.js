@@ -16,6 +16,7 @@ import { ExcelToMasav } from "./pages/ExcelToMasav";
 import { ReactComponent as Logo } from "./logo.svg";
 import { useTranslation } from "react-i18next";
 import pack from "../package.json";
+import CookieConsent from "react-cookie-consent";
 
 const { Header, Content, Footer } = Layout;
 
@@ -23,6 +24,9 @@ const MenuComponent = withRouter(({ history }) => {
   const { t } = useTranslation();
   return (
     <>
+     <CookieConsent buttonText={t('cookies-agree')}>
+        {t('cookies-message')}
+      </CookieConsent>
       <Menu
         theme="dark"
         mode="horizontal"

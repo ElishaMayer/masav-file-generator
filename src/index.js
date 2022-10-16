@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import CookieConsent from "react-cookie-consent";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { ErrorBoundary } from "./elements/ErrorBoundry";
@@ -29,9 +28,6 @@ getAnalytics(app);
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<Skeleton />}>
-      <CookieConsent>
-        This website uses cookies to enhance the user experience.
-      </CookieConsent>
       <ErrorBoundary>
         <ConfigProvider direction={getLanguageCode() === "he" ? "rtl" : "ltr"}>
           <App />

@@ -6,6 +6,7 @@ import { isEqual } from "lodash";
 import { useTranslation } from "react-i18next";
 import { useWindowWidth } from "@react-hook/window-size";
 import { MODILE_BREAK } from "../constatns/constants";
+import { saveInStorage } from "../functions/helpers";
 
 const layout = {
   labelCol: { span: 100 },
@@ -41,10 +42,7 @@ export const InstitutionForm = ({ onGenerateFileClick, onDataChange }) => {
   useEffect(() => {
     if (!isEqual(institueDetals, defaultValues)) {
       onDataChange?.(institueDetals);
-      localStorage.setItem(
-        "@online-editor/institution-state",
-        JSON.stringify(institueDetals)
-      );
+      saveInStorage("institution-state", JSON.stringify(institueDetals));
     }
   }, [institueDetals]);
   const onValuesChange = (_, values) => setinstitueDetals(values);
