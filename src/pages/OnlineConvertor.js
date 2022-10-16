@@ -265,10 +265,10 @@ export const OnlineConvertor = () => {
         >
           {t("download-excel-button")}
         </Button>
-        <Tooltip title={t("save-offile-data-tooltip")}>
+        <Tooltip title={t("save-offline-data-tooltip")}>
           <Switch
-            checkedChildren={t("save-offile-data-true")}
-            unCheckedChildren={t("save-offile-data-false")}
+            checkedChildren={t("save-offline-data-true")}
+            unCheckedChildren={t("save-offline-data-false")}
             checked={saveData}
             onChange={(checked) => setSaveData(checked)}
           />

@@ -65,11 +65,11 @@ export const generateMasavFile = async ({ institution, transactions }, t) => {
   const tt = (str) => t(`translation:${str}`);
   const messages = [];
   if (!institution.institutionId.match(/^\d{8}$/))
-    messages.push(tt("invalid-insitution-id"));
+    messages.push(tt("invalid-institution-id"));
   if (!institution.institutionName.match(/^.{1,30}$/))
-    messages.push(tt("invalid-insitution-Name"));
+    messages.push(tt("invalid-institution-Name"));
   if (!institution.sendingInstitutionId.match(/^\d{5}$/))
-    messages.push(tt("invalid-insitution-sending-id"));
+    messages.push(tt("invalid-institution-sending-id"));
   if (!institution.serialNumber.match(/^\d{3}$/))
     messages.push(tt("invalid-serial-number"));
   if (!transactions.length) messages.push(tt("no-transactions"));

@@ -8,7 +8,7 @@
   "list-1-link": "masav",
   "list-1-text": "- build Masav transactions file.",
   "list-2-link": "israeli-bank-autocomplete",
-  "list-2-text": "- get autocomplete results for bank branches in Israel based on information from The Bank of Isreal.",
+  "list-2-text": "- get autocomplete results for bank branches in Israel based on information from The Bank of Israeli.",
   "list-3-link": "israeli-bank-validation",
   "list-3-text": "- validate Israeli bank account details based on this specifications",
   "list-3-link-2": "pdf",
