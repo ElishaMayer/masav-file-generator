@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { ErrorBoundary } from "./elements/ErrorBoundry";
+import { ErrorBoundary } from "./elements/ErrorBoundary";
 import "./i18Next";
 import { Skeleton } from "antd";
 import { ConfigProvider } from "antd";

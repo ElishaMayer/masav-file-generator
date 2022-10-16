@@ -1,11 +1,10 @@
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { isEqual } from "lodash";
 import { useTranslation } from "react-i18next";
 import { useWindowWidth } from "@react-hook/window-size";
-import { MODILE_BREAK } from "../constatns/constants";
+import { MOBILE_BREAK } from "../constants/constants";
 import { saveInStorage } from "../functions/helpers";
 
 const layout = {
@@ -20,39 +19,41 @@ const defaultValues = {
   serialNumber: "001",
 };
 
-export const InstitutionForm = ({ onGenerateFileClick, onDataChange }) => {
+export const InstitutionForm = ({ onDataChange }) => {
   const { t } = useTranslation("online-convertor");
   const [form] = Form.useForm();
   const width = useWindowWidth();
 
-  const [institueDetals, setinstitueDetals] = useState({
+  const [institutionDetails, setInstitutionDetails] = useState({
     institutionId: "",
     institutionName: "",
     sendingInstitutionId: "",
     serialNumber: "001",
   });
   useEffect(() => {
-    const institueDetals = JSON.parse(
+    const institutionDetails = JSON.parse(
       localStorage.getItem("@online-editor/institution-state") || "null"
     );
-    onDataChange?.(institueDetals ? institueDetals : defaultValues);
-    form.setFieldsValue(institueDetals ? institueDetals : defaultValues);
+    onDataChange?.(institutionDetails ? institutionDetails : defaultValues);
+    form.setFieldsValue(
+      institutionDetails ? institutionDetails : defaultValues
+    );
   }, []);
 
   useEffect(() => {
-    if (!isEqual(institueDetals, defaultValues)) {
-      onDataChange?.(institueDetals);
-      saveInStorage("institution-state", JSON.stringify(institueDetals));
+    if (!isEqual(institutionDetails, defaultValues)) {
+      onDataChange?.(institutionDetails);
+      saveInStorage("institution-state", JSON.stringify(institutionDetails));
     }
-  }, [institueDetals]);
-  const onValuesChange = (_, values) => setinstitueDetals(values);
-  const onSumbit = () => onGenerateFileClick?.(institueDetals);
+  }, [institutionDetails]);
+  const onValuesChange = (_, values) => setInstitutionDetails(values);
+
   return (
     <Form
       {...layout}
       form={form}
       name="control-hooks"
-      layout={width > MODILE_BREAK ? "inline" : "vertical"}
+      layout={width > MOBILE_BREAK ? "inline" : "vertical"}
       onValuesChange={onValuesChange}
     >
       <Form.Item

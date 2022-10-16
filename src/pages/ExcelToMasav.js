@@ -17,7 +17,7 @@ const { Title, Paragraph, Text, Link } = Typography;
 export const ExcelToMasav = () => {
   const history = useHistory();
   const width = useWindowWidth();
-  const { t } = useTranslation("conver-from-excel");
+  const { t } = useTranslation("convert-from-excel");
   return (
     <div>
       <Typography

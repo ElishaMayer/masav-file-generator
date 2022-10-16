@@ -29,7 +29,7 @@ import { useWindowHeight, useWindowWidth } from "@react-hook/window-size";
 import { generateMasavFile } from "../functions/generateMasavFile";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
-import { MODILE_BREAK } from "../constatns/constants";
+import { MOBILE_BREAK } from "../constants/constants";
 import { showWarning } from "../functions/showWarning";
 import { generateExcelFile } from "../functions/generateExcelFile";
 import { saveInStorage } from "../functions/helpers";
@@ -113,8 +113,8 @@ export const OnlineConvertor = () => {
   const width = useWindowWidth();
   const { t } = useTranslation("online-convertor");
   const modalRef = useRef();
-  const [transactions, settransactions] = useState(getTransactionFromStorage());
-  const [institution, setinstitution] = useState(null);
+  const [transactions, setTransactions] = useState(getTransactionFromStorage());
+  const [institution, setInstitution] = useState(null);
   const [saveData, setSaveData] = useState(
     localStorage.getItem("@online-editor/save-data") !== "false"
   );
@@ -135,16 +135,16 @@ export const OnlineConvertor = () => {
   const onFormFinishClick = useCallback(
     (fields, isEdit) => {
       if (isEdit) {
-        settransactions((state) =>
+        setTransactions((state) =>
           state.map((trans) =>
             trans.key === isEdit ? { ...fields, key: isEdit } : trans
           )
         );
       } else {
-        settransactions((state) => [...state, { ...fields, key: v4() }]);
+        setTransactions((state) => [...state, { ...fields, key: v4() }]);
       }
     },
-    [settransactions, transactions]
+    [setTransactions, transactions]
   );
   const history = useHistory();
 
@@ -166,7 +166,7 @@ export const OnlineConvertor = () => {
             onClick={() =>
               showWarning("about-to-delete-row").then((res) =>
                 res
-                  ? settransactions((state) =>
+                  ? setTransactions((state) =>
                       state.filter((row) => row.key !== record.key)
                     )
                   : null
@@ -178,7 +178,7 @@ export const OnlineConvertor = () => {
         </>
       ),
     }),
-    [settransactions, modalRef]
+    [setTransactions, modalRef]
   );
 
   return (
@@ -188,16 +188,16 @@ export const OnlineConvertor = () => {
         title={t("title")}
         subTitle={t("sub-title")}
       />
-      <InstitutionForm onDataChange={setinstitution} />
+      <InstitutionForm onDataChange={setInstitution} />
       <Space
         style={{
           gap: 0,
           width: "100%",
-          height: width > MODILE_BREAK ? "80px" : "",
+          height: width > MOBILE_BREAK ? "80px" : "",
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          marginBottom: width < MODILE_BREAK ? "10px" : "",
+          marginBottom: width < MOBILE_BREAK ? "10px" : "",
         }}
       >
         <Button
@@ -215,7 +215,7 @@ export const OnlineConvertor = () => {
           shape="round"
           onClick={() =>
             showWarning("about-to-delete-all").then((res) =>
-              res ? settransactions([]) : null
+              res ? setTransactions([]) : null
             )
           }
           icon={<DeleteOutlined />}
@@ -228,7 +228,7 @@ export const OnlineConvertor = () => {
           showUploadList={false}
           beforeUpload={async (file) => {
             const state = await uploadFromExcel(file, t);
-            settransactions((old) => [...old, ...state]);
+            setTransactions((old) => [...old, ...state]);
             return false;
           }}
         >
