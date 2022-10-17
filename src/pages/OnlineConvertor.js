@@ -193,7 +193,7 @@ export const OnlineConvertor = () => {
         style={{
           gap: 0,
           width: "100%",
-          height: width > MOBILE_BREAK ? "80px" : "",
+          minHeight: width > MOBILE_BREAK ? "80px" : "",
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
