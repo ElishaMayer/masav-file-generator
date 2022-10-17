@@ -7,7 +7,7 @@ In Israel, Masav helps to transfer money between banks for more information - [W
 ## Based on the following npm packages
 To create a system to handle money transfers between banks, I build the following open-source npm packages to help handle the transaction data:
 - [masav](https://www.npmjs.com/package/masav) - build Masav transactions file.
-- [israeli-bank-autocomplete](https://www.npmjs.com/package/israeli-bank-autocomplete) - get autocomplete results for bank branches in Israel based on information from The Bank of Isreal.
+- [israeli-bank-autocomplete](https://www.npmjs.com/package/israeli-bank-autocomplete) - get autocomplete results for bank branches in Israel based on information from The Bank of Israel.
 - [israeli-bank-validation](https://www.npmjs.com/package/israeli-bank-validation) - validate Israeli bank account details based on this specifications [pdf](https://www.masav.co.il/media/1982/bdikat_hukiot_heshbon_msv.pdf).
 This web application uses the following packages fully offline, no data about the transactions are sent to a server. (Only general statistics are sent).
 
