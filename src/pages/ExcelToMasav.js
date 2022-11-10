@@ -1,15 +1,10 @@
-import { Typography, Modal, Upload, Image } from "antd";
-import {
-  DownloadOutlined,
-  EditOutlined,
-  FileExcelOutlined,
-  InboxOutlined,
-} from "@ant-design/icons";
+import { Typography, Upload, Image } from "antd";
+import { InboxOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
 import { useWindowWidth } from "@react-hook/window-size";
-import { saveInStorage } from "../functions/helpers";
+import { saveInStorageAlways } from "../functions/helpers";
 const { Dragger } = Upload;
 
 const { Title, Paragraph, Text, Link } = Typography;
@@ -42,8 +37,16 @@ export const ExcelToMasav = () => {
         accept=".xlsx"
         showUploadList={false}
         beforeUpload={async (file) => {
-          const state = await uploadFromExcel(file, t);
-          saveInStorage("transactions-state", JSON.stringify(state));
+          const { transactions, institution } = await uploadFromExcel(file, t);
+          saveInStorageAlways(
+            "transactions-state",
+            JSON.stringify(transactions)
+          );
+          if (institution)
+            saveInStorageAlways(
+              "institution-state",
+              JSON.stringify(institution)
+            );
           history.push("/online-builder");
           return false;
         }}

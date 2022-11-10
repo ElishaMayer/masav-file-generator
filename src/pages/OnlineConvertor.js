@@ -1,7 +1,6 @@
 import {
   Button,
   PageHeader,
-  Modal,
   Space,
   Table,
   Tooltip,
@@ -108,13 +107,27 @@ const getTransactionFromStorage = () => {
   );
 };
 
+const getTInstitutionFromStorage = () => {
+  return JSON.parse(
+    localStorage.getItem("@online-editor/institution-state") ||
+      `{
+      "institutionId": "",
+      "institutionName": "",
+      "sendingInstitutionId": "",
+      "serialNumber": "001"
+    }`
+  );
+};
+
 export const OnlineConvertor = () => {
   const height = useWindowHeight();
   const width = useWindowWidth();
   const { t } = useTranslation("online-convertor");
   const modalRef = useRef();
   const [transactions, setTransactions] = useState(getTransactionFromStorage());
-  const [institution, setInstitution] = useState(null);
+  const [institutionDetails, setInstitutionDetails] = useState(
+    getTInstitutionFromStorage()
+  );
   const [saveData, setSaveData] = useState(
     localStorage.getItem("@online-editor/save-data") !== "false"
   );
@@ -132,6 +145,11 @@ export const OnlineConvertor = () => {
   useEffect(() => {
     saveInStorage("transactions-state", JSON.stringify(transactions));
   }, [transactions]);
+
+  useEffect(() => {
+    saveInStorage("institution-state", JSON.stringify(institutionDetails));
+  }, [institutionDetails]);
+
   const onFormFinishClick = useCallback(
     (fields, isEdit) => {
       if (isEdit) {
@@ -188,7 +206,10 @@ export const OnlineConvertor = () => {
         title={t("title")}
         subTitle={t("sub-title")}
       />
-      <InstitutionForm onDataChange={setInstitution} />
+      <InstitutionForm
+        onDataChange={setInstitutionDetails}
+        institutionDetails={institutionDetails}
+      />
       <Space
         style={{
           gap: 0,
@@ -227,8 +248,12 @@ export const OnlineConvertor = () => {
           accept=".xlsx"
           showUploadList={false}
           beforeUpload={async (file) => {
-            const state = await uploadFromExcel(file, t);
-            setTransactions((old) => [...old, ...state]);
+            const { transactions, institution } = await uploadFromExcel(
+              file,
+              t
+            );
+            setTransactions((old) => [...old, ...transactions]);
+            if (institution) setInstitutionDetails(institution);
             return false;
           }}
         >
@@ -250,7 +275,7 @@ export const OnlineConvertor = () => {
           type="primary"
           size="large"
           shape="round"
-          onClick={() => generateMasavFile({ institution, transactions }, t)}
+          onClick={() => generateMasavFile({ institution:institutionDetails, transactions }, t)}
           icon={<DownloadOutlined />}
         >
           {t("download-file-button")}

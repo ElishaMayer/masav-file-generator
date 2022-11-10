@@ -19,34 +19,16 @@ const defaultValues = {
   serialNumber: "001",
 };
 
-export const InstitutionForm = ({ onDataChange }) => {
+export const InstitutionForm = ({ onDataChange, institutionDetails }) => {
   const { t } = useTranslation("online-convertor");
   const [form] = Form.useForm();
   const width = useWindowWidth();
 
-  const [institutionDetails, setInstitutionDetails] = useState({
-    institutionId: "",
-    institutionName: "",
-    sendingInstitutionId: "",
-    serialNumber: "001",
-  });
   useEffect(() => {
-    const institutionDetails = JSON.parse(
-      localStorage.getItem("@online-editor/institution-state") || "null"
-    );
-    onDataChange?.(institutionDetails ? institutionDetails : defaultValues);
-    form.setFieldsValue(
-      institutionDetails ? institutionDetails : defaultValues
-    );
-  }, []);
-
-  useEffect(() => {
-    if (!isEqual(institutionDetails, defaultValues)) {
-      onDataChange?.(institutionDetails);
-      saveInStorage("institution-state", JSON.stringify(institutionDetails));
-    }
+    form.setFieldsValue(institutionDetails);
   }, [institutionDetails]);
-  const onValuesChange = (_, values) => setInstitutionDetails(values);
+
+  const onValuesChange = (_, values) => onDataChange(values);
 
   return (
     <Form
