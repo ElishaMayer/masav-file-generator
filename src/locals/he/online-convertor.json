@@ -87,5 +87,12 @@
   "excel-col-4": "מספר סניף",
   "excel-col-5": "מספר חשבון",
   "excel-col-6": "סכום",
-  "excel-col-7": "מזהה עובד"
+  "excel-col-7": "מזהה עובד",
+  "map-transactions-tooltip":"אנא בחרו את הגיליון שמכיל את ההעברות",
+  "map-transactions-label":"גיליון העברות",
+  "map-transactions-placeholder":"בחר גיליון",
+  "map-institution-tooltip":"אנא בחרו את הגיליון שמכיל את פרטי המוסד במס\"ב",
+  "map-institution-label":"גיליון פרטי מוסד",
+  "map-institution-placeholder":"בחר גיליון",
+  "import-excel-map-button":"ייבא נתונים מאקסל"
 }

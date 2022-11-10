@@ -5,3 +5,7 @@ export const saveInStorage = (key, data) => {
     localStorage.setItem(`@online-editor/${key}`, data);
   }
 };
+
+export const saveInStorageAlways = (key, data) => {
+  localStorage.setItem(`@online-editor/${key}`, data);
+};
