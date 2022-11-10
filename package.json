@@ -1,6 +1,6 @@
 {
   "name": "masav-file-generator",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
