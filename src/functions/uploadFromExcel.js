@@ -120,6 +120,6 @@ export const uploadFromExcel = async (file, t) => {
       title: tt("error-opening-file"),
       content: tt("error-opening-file-content"),
     });
-    return [];
+    return { transactions: [], institution: null };
   }
 };
