@@ -43,7 +43,7 @@ const ValidatedField = ({ text, tooltip, icon }) => {
   );
 };
 
-const columns = (t) => [
+const columns = (t, fileType) => [
   {
     title: t("bank-details"),
     dataIndex: "bankId",
@@ -87,7 +87,7 @@ const columns = (t) => [
     dataIndex: "payeeName",
   },
   {
-    title: t("employee-number"),
+    title: t(`${fileType}-employee-number`),
     dataIndex: "payeeNumber",
   },
   {
@@ -101,9 +101,10 @@ const columns = (t) => [
   },
 ];
 
-const getTransactionFromStorage = () => {
+const getTransactionFromStorage = (fileType) => {
   return JSON.parse(
-    localStorage.getItem("@online-editor/transactions-state") || "[]"
+    localStorage.getItem(`@online-editor/${fileType}/transactions-state`) ||
+      "[]"
   );
 };
 
@@ -119,12 +120,14 @@ const getTInstitutionFromStorage = () => {
   );
 };
 
-export const OnlineConvertor = () => {
+export const OnlineConvertor = ({ fileType }) => {
   const height = useWindowHeight();
   const width = useWindowWidth();
   const { t } = useTranslation("online-convertor");
   const modalRef = useRef();
-  const [transactions, setTransactions] = useState(getTransactionFromStorage());
+  const [transactions, setTransactions] = useState(
+    getTransactionFromStorage(fileType)
+  );
   const [institutionDetails, setInstitutionDetails] = useState(
     getTInstitutionFromStorage()
   );
@@ -132,18 +135,24 @@ export const OnlineConvertor = () => {
     localStorage.getItem("@online-editor/save-data") !== "false"
   );
   useEffect(() => {
+    setTransactions(getTransactionFromStorage(fileType));
+  }, [fileType]);
+  useEffect(() => {
     localStorage.setItem(
       "@online-editor/save-data",
       saveData ? "true" : "false"
     );
     if (!saveData) {
-      localStorage.removeItem("@online-editor/transactions-state");
+      localStorage.removeItem(`@online-editor/${fileType}/transactions-state`);
       localStorage.removeItem("@online-editor/institution-state");
     }
   }, [saveData]);
 
   useEffect(() => {
-    saveInStorage("transactions-state", JSON.stringify(transactions));
+    saveInStorage(
+      `${fileType}/transactions-state`,
+      JSON.stringify(transactions)
+    );
   }, [transactions]);
 
   useEffect(() => {
@@ -203,140 +212,156 @@ export const OnlineConvertor = () => {
     <div>
       <PageHeader
         onBack={() => history.push("/")}
-        title={t("title")}
-        subTitle={t("sub-title")}
+        title={t(`title-${fileType}`)}
+        subTitle={t(`sub-title-${fileType}`)}
+        className="site-page-header"
       />
-      <InstitutionForm
-        onDataChange={setInstitutionDetails}
-        institutionDetails={institutionDetails}
-      />
-      <Space
-        style={{
-          gap: 0,
-          width: "100%",
-          minHeight: width > MOBILE_BREAK ? "80px" : "",
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          marginBottom: width < MOBILE_BREAK ? "10px" : "",
-        }}
-      >
-        <Button
-          style={{ margin: "4px 0px" }}
-          type="primary"
-          size="large"
-          shape="circle"
-          onClick={() => modalRef.current.addRow()}
-          icon={<PlusOutlined />}
-        ></Button>
-        <Button
-          style={{ margin: "4px 0px" }}
-          type="primary"
-          size="large"
-          shape="round"
-          onClick={() =>
-            showWarning("about-to-delete-all").then((res) =>
-              res ? setTransactions([]) : null
-            )
-          }
-          icon={<DeleteOutlined />}
-        >
-          {t("delete-all-button")}
-        </Button>
-        <Upload
-          name="file"
-          accept=".xlsx"
-          showUploadList={false}
-          beforeUpload={async (file) => {
-            const { transactions, institution } = await uploadFromExcel(
-              file,
-              t
-            );
-            setTransactions((old) => [...old, ...transactions]);
-            if (institution) setInstitutionDetails(institution);
-            return false;
+      <div style={{ padding: "0 50px" }}>
+        <InstitutionForm
+          onDataChange={setInstitutionDetails}
+          institutionDetails={institutionDetails}
+        />
+        <Space
+          style={{
+            gap: 0,
+            width: "100%",
+            minHeight: width > MOBILE_BREAK ? "80px" : "",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            marginBottom: width < MOBILE_BREAK ? "10px" : "",
           }}
         >
           <Button
             style={{ margin: "4px 0px" }}
             type="primary"
             size="large"
+            shape="circle"
+            onClick={() => modalRef.current.addRow()}
+            icon={<PlusOutlined />}
+          ></Button>
+          <Button
+            style={{ margin: "4px 0px" }}
+            type="primary"
+            size="large"
             shape="round"
-            icon={<UploadOutlined />}
+            onClick={() =>
+              showWarning("about-to-delete-all").then((res) =>
+                res ? setTransactions([]) : null
+              )
+            }
+            icon={<DeleteOutlined />}
           >
-            {t("import-excel")}
+            {t("delete-all-button")}
           </Button>
-        </Upload>
-        <a style={{ margin: "4px 0px" }} download href="/example.xlsx">
-          {t("example-file-link")}
-        </a>
-        <Button
-          style={{ margin: "4px 0px" }}
-          type="primary"
-          size="large"
-          shape="round"
-          onClick={() => generateMasavFile({ institution:institutionDetails, transactions }, t)}
-          icon={<DownloadOutlined />}
-        >
-          {t("download-file-button")}
-        </Button>
-        <Button
-          style={{ margin: "4px 0px" }}
-          type="primary"
-          size="large"
-          shape="round"
-          onClick={() => generateExcelFile(transactions, t)}
-          icon={<DownloadOutlined />}
-        >
-          {t("download-excel-button")}
-        </Button>
-        <Tooltip title={t("save-offline-data-tooltip")}>
-          <Switch
-            checkedChildren={t("save-offline-data-true")}
-            unCheckedChildren={t("save-offline-data-false")}
-            checked={saveData}
-            onChange={(checked) => setSaveData(checked)}
-          />
-        </Tooltip>
-      </Space>
-      <Table
-        size="small"
-        locale={{
-          emptyText: (
+          <Upload
+            name="file"
+            accept=".xlsx"
+            showUploadList={false}
+            beforeUpload={async (file) => {
+              const { transactions, institution } = await uploadFromExcel(
+                file,
+                t
+              );
+              setTransactions((old) => [...old, ...transactions]);
+              if (institution) setInstitutionDetails(institution);
+              return false;
+            }}
+          >
             <Button
-              onClick={() => modalRef.current.addRow()}
-              icon={<PlusOutlined />}
+              style={{ margin: "4px 0px" }}
+              type="primary"
               size="large"
               shape="round"
+              icon={<UploadOutlined />}
             >
-              {t("add-new-transaction")}
+              {t("import-excel")}
             </Button>
-          ),
-        }}
-        style={{ minWidth: width - 100 }}
-        scroll={{ y: height - 0, x: 800 }}
-        dataSource={transactions}
-        columns={[...columns(t), actionsColumn]}
-        summary={() => (
-          <Table.Summary.Row>
-            <Table.Summary.Cell>{t("total")}</Table.Summary.Cell>
-            <Table.Summary.Cell></Table.Summary.Cell>
-            <Table.Summary.Cell></Table.Summary.Cell>
-            <Table.Summary.Cell></Table.Summary.Cell>
-            <Table.Summary.Cell>
-              {new Intl.NumberFormat("il-IL", {
-                style: "currency",
-                currency: "ILS",
-              }).format(
-                transactions
-                  .map((trans) => trans.amount)
-                  .reduce((a, b) => a + b, 0)
-              )}
-            </Table.Summary.Cell>
-          </Table.Summary.Row>
-        )}
-      />
-      <PayeeForm ref={modalRef} onFormFinishClick={onFormFinishClick} />
+          </Upload>
+          <a
+            style={{ margin: "4px 0px" }}
+            href={`/${fileType}-example.xlsx`}
+            download={t(`example-${fileType}-link`)}
+          >
+            {t(`example-${fileType}-link`)}
+          </a>
+          <Button
+            style={{ margin: "4px 0px" }}
+            type="primary"
+            size="large"
+            shape="round"
+            onClick={() =>
+              generateMasavFile(
+                { institution: institutionDetails, transactions, fileType },
+                t
+              )
+            }
+            icon={<DownloadOutlined />}
+          >
+            {t("download-file-button")}
+          </Button>
+          <Button
+            style={{ margin: "4px 0px" }}
+            type="primary"
+            size="large"
+            shape="round"
+            onClick={() => generateExcelFile(transactions, fileType, t)}
+            icon={<DownloadOutlined />}
+          >
+            {t("download-excel-button")}
+          </Button>
+          <Tooltip title={t("save-offline-data-tooltip")}>
+            <Switch
+              checkedChildren={t("save-offline-data-true")}
+              unCheckedChildren={t("save-offline-data-false")}
+              checked={saveData}
+              onChange={(checked) => setSaveData(checked)}
+            />
+          </Tooltip>
+        </Space>
+        <Table
+          size="small"
+          locale={{
+            emptyText: (
+              <Button
+                onClick={() => modalRef.current.addRow()}
+                icon={<PlusOutlined />}
+                size="large"
+                shape="round"
+              >
+                {t("add-new-transaction")}
+              </Button>
+            ),
+          }}
+          style={{ minWidth: width - 100 }}
+          scroll={{ y: height - 0, x: 800 }}
+          dataSource={transactions}
+          columns={[...columns(t, fileType), actionsColumn]}
+          summary={() => (
+            <Table.Summary.Row>
+              <Table.Summary.Cell>{t("total")}</Table.Summary.Cell>
+              <Table.Summary.Cell></Table.Summary.Cell>
+              <Table.Summary.Cell></Table.Summary.Cell>
+              <Table.Summary.Cell></Table.Summary.Cell>
+              <Table.Summary.Cell>
+                {new Intl.NumberFormat("il-IL", {
+                  style: "currency",
+                  currency: "ILS",
+                }).format(
+                  transactions
+                    .map((trans) => trans.amount)
+                    .reduce((a, b) => a + b, 0)
+                )}
+              </Table.Summary.Cell>
+            </Table.Summary.Row>
+          )}
+        />
+        <PayeeForm
+          ref={modalRef}
+          fileType={fileType}
+          onFormFinishClick={onFormFinishClick}
+        />
+      </div>
     </div>
   );
 };

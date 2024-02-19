@@ -6,6 +6,7 @@ import {
   Switch,
   Route,
   Link,
+  Redirect,
   useHistory,
   withRouter,
 } from "react-router-dom";
@@ -24,8 +25,8 @@ const MenuComponent = withRouter(({ history }) => {
   const { t } = useTranslation();
   return (
     <>
-     <CookieConsent buttonText={t('cookies-agree')}>
-        {t('cookies-message')}
+      <CookieConsent buttonText={t("cookies-agree")}>
+        {t("cookies-message")}
       </CookieConsent>
       <Menu
         theme="dark"
@@ -44,8 +45,13 @@ const MenuComponent = withRouter(({ history }) => {
         <Menu.Item key={"/convert-excel"}>
           <Link to="/convert-excel">{t("convert-from-excel")}</Link>
         </Menu.Item>
-        <Menu.Item key={"/online-builder"}>
-          <Link to="/online-builder">{t("online-editor")}</Link>
+        <Menu.Item key={"/charges-online-builder"}>
+          <Link to="/charges-online-builder">{t("charges-online-editor")}</Link>
+        </Menu.Item>
+        <Menu.Item key={"/payments-online-builder"}>
+          <Link to="/payments-online-builder">
+            {t("payments-online-editor")}
+          </Link>
         </Menu.Item>
         <Menu.Item key={"/about"}>
           <Link to="/about">{t("about")}</Link>
@@ -78,22 +84,30 @@ const App = () => {
       >
         <div>
           <MenuComponent />
-          <div style={{ padding: "0 50px" }}>
-            <Switch>
-              <Route path="/convert-excel">
-                <ExcelToMasav />
-              </Route>
-              <Route path="/online-builder">
-                <OnlineConvertor />
-              </Route>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/">
-                <MainPage />
-              </Route>
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/convert-excel">
+              <ExcelToMasav />
+            </Route>
+            <Route path="/payments-online-builder">
+              <OnlineConvertor id="payments" fileType="payments" />
+            </Route>
+            <Route path="/charges-online-builder">
+              <OnlineConvertor id="charges" fileType="charges" />
+            </Route>
+            <Route path="/online-builder">
+              <Redirect
+                to={{
+                  pathname: "/payments-online-builder",
+                }}
+              />
+            </Route>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/">
+              <MainPage />
+            </Route>
+          </Switch>
         </div>
         <footer style={{ textAlign: "center", padding: "5px" }}>
           {t("credits") + " v" + pack.version}

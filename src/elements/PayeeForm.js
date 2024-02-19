@@ -53,7 +53,7 @@ const areFieldsValid = ({
   return true;
 };
 
-export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
+export const PayeeForm = forwardRef(({ onFormFinishClick, fileType }, ref) => {
   const { t } = useTranslation("online-convertor");
   const [isEdit, setIsEdit] = useState("");
   const [branchOptions, setBranchOptions] = useState([]);
@@ -225,13 +225,13 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
         <Form.Item
           name="payeeNumber"
           tooltip={{
-            title: t("employee-number-tooltip"),
+            title: t(`${fileType}-employee-number-tooltip`),
             icon: <InfoCircleOutlined />,
           }}
-          label={t("employee-number-label")}
+          label={t(`${fileType}-employee-number-label`)}
           rules={[{ max: 20, message: t("messages-max-20-digits") }]}
         >
-          <Input placeholder={t("employee-number-placeholder")} />
+          <Input placeholder={t(`${fileType}-employee-number-placeholder`)} />
         </Form.Item>
         <Form.Item
           name="amount"

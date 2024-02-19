@@ -1,7 +1,7 @@
 import { getAnalytics, logEvent } from "firebase/analytics";
 const ExcelJS = require("exceljs");
 
-export const generateExcelFile = async (transactions, t) => {
+export const generateExcelFile = async (transactions, fileType, t) => {
   const workbook = new ExcelJS.Workbook();
   workbook.creator = "Masav File Generator";
   workbook.created = new Date();
@@ -14,7 +14,7 @@ export const generateExcelFile = async (transactions, t) => {
     { header: t("excel-col-4"), width: 15 },
     { header: t("excel-col-5"), width: 15 },
     { header: t("excel-col-6"), width: 15 },
-    { header: t("excel-col-7"), width: 15 },
+    { header: t(`${fileType}-excel-col-7`), width: 15 },
   ];
 
   let rowIndex = 2;
@@ -33,7 +33,7 @@ export const generateExcelFile = async (transactions, t) => {
 
   let link = document.createElement("a");
   link.href = window.URL.createObjectURL(new Blob([buffer]));
-  link.download = `transactions.xlsx`;
+  link.download = `${t(`${fileType}-exported-excel-file`)}.xlsx`;
   link.click();
 
   try {

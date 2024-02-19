@@ -1,7 +1,18 @@
-@import '~antd/dist/antd.less';
+@import "~antd/dist/antd.less";
 
-.hide-modal-footer{
-    .ant-modal-confirm-btns{
-        display: none;
+.hide-modal-footer {
+  .ant-modal-confirm-btns {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .site-page-header {
+    .ant-page-header-heading-left {
+      flex-flow: wrap;
     }
+    .ant-page-header-heading-sub-title {
+      white-space: normal;
+    }
+  }
 }

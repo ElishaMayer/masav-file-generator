@@ -13,7 +13,7 @@ export const MainPage = () => {
   const width = useWindowWidth();
   const isMobile = MOBILE_BREAK > width;
   return (
-    <div>
+    <div style={{ padding: "0 50px" }}>
       <Typography
         style={{ maxWidth: "600px", margin: "auto", paddingTop: "20px" }}
       >
@@ -46,7 +46,7 @@ export const MainPage = () => {
         <Button
           type="primary"
           shape="round"
-          onClick={() => history.push("/online-builder")}
+          onClick={() => history.push("/charges-online-builder")}
           icon={<EditOutlined />}
           style={{
             display: "block",
@@ -54,7 +54,20 @@ export const MainPage = () => {
           }}
           size={"large"}
         >
-          {t("online-editor")}
+          {t("charges-online-editor")}
+        </Button>
+        <Button
+          type="primary"
+          shape="round"
+          onClick={() => history.push("/payments-online-builder")}
+          icon={<EditOutlined />}
+          style={{
+            display: "block",
+            width: "250px",
+          }}
+          size={"large"}
+        >
+          {t("payments-online-editor")}
         </Button>
         <Button
           style={{

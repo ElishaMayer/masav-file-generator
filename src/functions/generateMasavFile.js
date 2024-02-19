@@ -3,16 +3,19 @@ import {
   InstitutionSendPayment,
   MasaVSendPayments,
   SendPaymentsRecord,
+  InstitutionGetPayment,
+  MasaVGetPayments,
+  GetPaymentsRecord,
 } from "masav";
 import moment from "moment";
 import { getAnalytics, logEvent } from "firebase/analytics";
 import JSZip from "jszip";
 import i18next from "i18next";
 
-const showSummery = (institution, transactions, t) =>
+const showSummery = (institution, transactions, fileType, t) =>
   new Promise((resolve) => {
     Modal.confirm({
-      title: t("masav-file-summery"),
+      title: t(`${fileType}-masav-file-summery`),
       icon: null,
       bodyStyle: { direction: t("translation:direction") },
       content: (
@@ -61,7 +64,10 @@ const showSummery = (institution, transactions, t) =>
     });
   });
 
-export const generateMasavFile = async ({ institution, transactions }, t) => {
+export const generateMasavFile = async (
+  { institution, transactions, fileType },
+  t
+) => {
   const tt = (str) => t(`translation:${str}`);
   const messages = [];
   if (!institution.institutionId.match(/^\d{8}$/))
@@ -116,11 +122,18 @@ export const generateMasavFile = async ({ institution, transactions }, t) => {
     });
     return;
   }
-  const result = await showSummery(institution, transactions, t);
+  const result = await showSummery(institution, transactions, fileType, t);
   if (!result) return;
 
-  let masavFile = new MasaVSendPayments();
-  let masav_institution = new InstitutionSendPayment(
+  const MasaVPayments =
+    fileType === "charges" ? MasaVGetPayments : MasaVSendPayments;
+  const InstitutionPayment =
+    fileType === "charges" ? InstitutionGetPayment : InstitutionSendPayment;
+  const PaymentsRecord =
+    fileType === "charges" ? GetPaymentsRecord : SendPaymentsRecord;
+
+  let masavFile = new MasaVPayments();
+  let masav_institution = new InstitutionPayment(
     institution.institutionId || "",
     institution.sendingInstitutionId || "",
     moment().format("YYMMDD"),
@@ -139,7 +152,7 @@ export const generateMasavFile = async ({ institution, transactions }, t) => {
       payeeNumber,
     }) => {
       masav_institution.addPaymentRecord(
-        new SendPaymentsRecord(
+        new PaymentsRecord(
           bankId || "",
           branchId || "",
           accountId || "",

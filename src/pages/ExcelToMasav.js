@@ -14,7 +14,7 @@ export const ExcelToMasav = () => {
   const width = useWindowWidth();
   const { t } = useTranslation("convert-from-excel");
   return (
-    <div>
+    <div style={{ padding: "0 50px" }}>
       <Typography
         style={{ maxWidth: "600px", margin: "auto", paddingTop: "50px" }}
       >
