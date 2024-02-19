@@ -1,5 +1,3 @@
-call git add package.json
-call git commit -m "pre-deploy-electron"
 call npm version patch
 call npm run build
 call RMDIR "application/public" /S /Q
