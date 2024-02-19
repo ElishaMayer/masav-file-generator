@@ -6,4 +6,5 @@ call RMDIR "installers" /S /Q
 call MKDIR "application/public"
 call XCOPY /S "build" "application/public"
 call npm run electron-pack
+call cd application
 call npm run electron-installer

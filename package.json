@@ -51,8 +51,7 @@
     "build": "set NODE_OPTIONS=--no-experimental-fetch --openssl-legacy-provider && craco build",
     "build-desktop-installer": "build-desktop-installer.bat",
     "electron-pack": "electron-packager ./application/ \"Masav File Generator\" --platform win32 --arch x64 --out ./dist/ --icon public/favicon.ico  --overwrite",
-    "electron-run": "electron ./application/",
-    "electron-installer": "node ./application/build-installer.js"
+    "electron-run": "electron ./application/"
   },
   "eslintConfig": {
     "extends": [
@@ -75,8 +74,7 @@
   "homepage": "./",
   "devDependencies": {
     "electron": "^28.2.3",
-    "electron-packager": "^17.1.2",
-    "electron-winstaller": "^5.2.2"
+    "electron-packager": "^17.1.2"
   },
   "workspaces": {
     "packages": [

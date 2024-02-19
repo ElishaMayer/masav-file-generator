@@ -6,7 +6,7 @@ const pack = require("../package.json");
     console.log("Building Installer");
     await electronInstaller.createWindowsInstaller({
       appDirectory: "../dist/Masav File Generator-win32-x64/",
-      outputDirectory: "./installers/",
+      outputDirectory: "../installers/",
       authors: "Elisha Mayer",
       exe: "Masav File Generator.exe",
       icon: "public/favicon.ico",
