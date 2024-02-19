@@ -53,7 +53,7 @@
     "build-desktop-installer": "build-desktop-installer.bat",
     "electron-pack": "electron-packager ./application/ \"Masav File Generator\" --platform win32 --arch x64 --out ../dist/ --icon public/favicon.ico  --overwrite",
     "electron-run": "electron ./application/",
-    "electron-installer": "node build-installer.js"
+    "electron-installer": "node ./application/build-installer.js"
   },
   "eslintConfig": {
     "extends": [

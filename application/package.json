@@ -1,0 +1,8 @@
+{
+    "name": "application",
+    "version": "1.0.0",
+    "description": "Masav File Generator",
+    "main": "index.js",
+    "author": "Elisha Mayer",
+    "license": "MIT"
+  }
