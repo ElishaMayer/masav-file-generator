@@ -1,7 +1,7 @@
 {
   "main-title": "Welcome to Masav Online File Generator",
   "para-1": "When transferring money to multiple people, it's recommended to use",
-  "para-2": "to transfer money. The problem is that Masav accepts only a binary file with the records. Most CRM programs in Israel can export this file, but without such a program, it can be complicated. This website can help you build them with the online editor, or converting from excel files.",
+  "para-2": "to transfer money. The problem is that Masav accepts only a binary file with the records. Most CRM programs in Israel can export this file, but without such a program, it can be complicated. This application can help you build them with the online editor, or converting from excel files.",
   "online-editor": "Online Editor",
   "excel-to-masav-convertor": "Excel to Masav Convertor",
   "masav": "Masav",

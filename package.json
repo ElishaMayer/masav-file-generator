@@ -48,7 +48,6 @@
 	"scripts": {
 		"start": "set NODE_OPTIONS=--openssl-legacy-provider && craco start",
 		"build": "set NODE_OPTIONS=--openssl-legacy-provider && craco build",
-		"test": "set NODE_OPTIONS=--openssl-legacy-provider && craco test",
 		"deploy-desktop": "deploy-desktop.bat"
 	},
 	"eslintConfig": {
