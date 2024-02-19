@@ -1,6 +1,6 @@
 {
   "name": "masav-file-generator",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "private": true,
   "author": "Elisha Mayer",
   "description": "Masav File Generator",
@@ -44,14 +44,14 @@
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4",
-	"electron-is-dev": "^2.0.0",
+    "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0"
   },
   "scripts": {
     "start": "set NODE_OPTIONS=--openssl-legacy-provider && craco start",
     "build": "set NODE_OPTIONS=--no-experimental-fetch --openssl-legacy-provider && craco build",
     "build-desktop-installer": "build-desktop-installer.bat",
-	"electron-pack": "electron-packager ./application/ \"Masav File Generator\" --platform win32 --arch x64 --out ../dist/ --icon public/favicon.ico  --overwrite",
+    "electron-pack": "electron-packager ./application/ \"Masav File Generator\" --platform win32 --arch x64 --out ../dist/ --icon public/favicon.ico  --overwrite",
     "electron-run": "electron ./application/",
     "electron-installer": "node build-installer.js"
   },
