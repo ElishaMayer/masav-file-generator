@@ -72,7 +72,7 @@
   "amount-placeholder": "00.0 ₪",
   "save-offline-data-false": "Don't save data",
   "save-offline-data-true": "Save data",
-  "save-offline-data-tooltip": "When data is saved, the information about the institution and the transactions are saved in the browser's memory only in an unencrypted manner. The information is only available in the current browser in the same profile and is not sent to the cloud.",
+  "save-offline-data-tooltip": "When data is saved, the information about the institution and the transactions are saved in the PC's memory only in an unencrypted manner. The information is only available in the current PC in the same profile and is not sent to the cloud.",
   "add-new-transaction": "Add new Transaction",
   "download-excel-button": "Download Excel File",
   "number-of-transactions": "Number of Transactions",

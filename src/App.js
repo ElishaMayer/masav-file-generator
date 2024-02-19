@@ -107,7 +107,7 @@ const App = () => {
           </div>
         </div>
         <footer style={{ textAlign: "center", padding: "5px" }}>
-          {t("credits") + " v" + pack.version}
+          {pack.version}
         </footer>
       </Layout>
     </Router>

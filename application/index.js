@@ -2,7 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const { app, BrowserWindow, protocol, ipcMain } = require("electron");
 const isDev = require("electron-is-dev");
-const { initLisence } = require("./lisence");
 
 if (require("electron-squirrel-startup")) return;
 
@@ -59,5 +58,3 @@ app.on("activate", () => {
     createWindow();
   }
 });
-
-initLisence();

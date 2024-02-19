@@ -1,6 +1,5 @@
 {
   "masav": "Masav",
-  "credits": "Elisha Mayer ©2021",
   "home-page": "Home Page",
   "convert-from-excel": "Convert from Excel",
   "online-editor": "Online Editor",
@@ -36,7 +35,5 @@
   "direction": "ltr",
   "free-version-warn-desc": "This is a free version, you can't use more that 5 transactions",
   "free-version-warn-title": "This is a free version",
-  "cookies-message": "By using this website you agree that we use cookies to track your activity for statistics by Google Analytics. By using this web application you agree that \"Masav Online File Generator\" or the website developers won't have any responsibility for the data and the validity of the file or to any damage caused by the web application.",
-  "cookies-agree": "I agree",
   "map-sheets-form": "Please map the worksheets from"
 }

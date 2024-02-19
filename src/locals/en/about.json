@@ -12,7 +12,7 @@
   "list-3-link": "israeli-bank-validation",
   "list-3-text": "- validate Israeli bank account details based on this specifications",
   "list-3-link-2": "pdf",
-  "para-3-1": "This web application uses the following packages fully offline, no data about the transactions are sent to a server. (Only general statistics are sent to Google Analytics).",
+  "para-3-1": "This web application uses the following packages fully offline, no data about the transactions are sent to a server.",
   "sub-title": "Term and Conditions",
   "para-4-1": "By using this web application you agree that \"Masav Online File Generator\" or the website developers won't have any responsibility for the data and the validity of the file or to any damage caused by the web application.",
   "para-5-1": "This is a beta version, use it on your own responsibility."

@@ -1,6 +1,6 @@
 {
   "name": "application",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Masav File Generator",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "installer": "node build-installer.js"
   },
   "author": "Elisha Mayer",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",

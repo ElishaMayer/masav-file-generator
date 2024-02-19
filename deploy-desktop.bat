@@ -1,4 +1,4 @@
-call node configPackagesFile.js electron
+set NODE_OPTIONS=--openssl-legacy-provider
 rem call git add package.json
 rem call git commit -m "pre-deploy-electron"
 rem call npm version patch

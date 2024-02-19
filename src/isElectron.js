@@ -28,20 +28,3 @@ if (
 
 export const isElectron = isElectronLocal;
 
-export const hasLisence = async () => {
-  try {
-    return await window.ipcRenderer.invoke("check-license");
-  } catch (e) {}
-};
-
-export const getPCID = async () => {
-  try {
-    return await window.ipcRenderer.invoke("get-pc-id");
-  } catch (e) {}
-};
-
-export const saveLisence = async (lisence) => {
-  try {
-    return await window.ipcRenderer.invoke("add-license", lisence);
-  } catch (e) {}
-};
