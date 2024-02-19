@@ -13,7 +13,7 @@ import { About } from "./pages/About";
 import { MainPage } from "./pages/MainPage";
 import { OnlineConvertor } from "./pages/OnlineConvertor";
 import { ExcelToMasav } from "./pages/ExcelToMasav";
-import { ReactComponent as Logo } from "./logo.svg";
+import { ReactComponent as Logo } from "./assets/Logo.svg";
 import { useTranslation } from "react-i18next";
 import pack from "../package.json";
 import { isElectron } from "./isElectron";
@@ -32,7 +32,7 @@ const MenuComponent = withRouter(({ history }) => {
       >
         <Menu.Item
           icon={
-            <Logo height="25px" style={{ transform: "translate(-6px, 6px)" }} />
+            <Logo height="25px" style={{ transform: "translate(4px, 6px)" }} />
           }
           key={"/"}
         >

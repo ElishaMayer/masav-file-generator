@@ -1,6 +1,6 @@
 {
   "main-title": "Import Transactions from Excel File",
-  "para-1": "To import data from excel sheets make sure the excel has only one sheet and that the data is in the same format as the",
+  "para-1": "To import data from excel sheets make sure the data is in the same format as the",
   "para-2": "Example Excel File",
   "dragger-title": "Click or drag file to this area to upload",
   "dragger-description": "Support only for xlsx file"

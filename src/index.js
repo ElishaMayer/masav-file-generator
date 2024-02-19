@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import CookieConsent from "react-cookie-consent";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { ErrorBoundary } from "./elements/ErrorBoundry";
+import { ErrorBoundary } from "./elements/ErrorBoundary";
 import "./i18Next";
 import { Skeleton } from "antd";
 import { ConfigProvider } from "antd";

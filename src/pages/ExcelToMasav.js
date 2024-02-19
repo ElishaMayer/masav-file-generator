@@ -1,29 +1,22 @@
-import { Typography, Modal, Upload, Image } from "antd";
-import {
-  DownloadOutlined,
-  EditOutlined,
-  FileExcelOutlined,
-  InboxOutlined,
-} from "@ant-design/icons";
+import { Typography, Upload, Image } from "antd";
+import { InboxOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
 import { useWindowWidth } from "@react-hook/window-size";
-import { hasLisence, isElectron } from "../isElectron";
-import { useEffect, useState } from "react";
+import { isElectron } from "../isElectron";
+import { saveInStorageAlways } from "../functions/helpers";
 const { Dragger } = Upload;
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 export const ExcelToMasav = () => {
-  const [lisence, setlisence] = useState("PREMIUM");
 
   const history = useHistory();
   const width = useWindowWidth();
-  const { t } = useTranslation("conver-from-excel");
-  useEffect(() => {
-    hasLisence().then(setlisence);
-  }, []);
+
+  const { t } = useTranslation("convert-from-excel");
+
   return (
     <div>
       <Typography
@@ -50,19 +43,16 @@ export const ExcelToMasav = () => {
         accept=".xlsx"
         showUploadList={false}
         beforeUpload={async (file) => {
-          let state = await uploadFromExcel(file, t);
-          if (isElectron && lisence !== "PREMIUM" && state.length > 5) {
-            state = state.slice(0, 5);
-            Modal.warn({
-              bodyStyle: { direction: t("translation:direction") },
-              title: t("translation:free-version-warn-title"),
-              content: t("translation:free-version-warn-desc"),
-            });
-          }
-          localStorage.setItem(
-            "@online-editor/transactions-state",
-            JSON.stringify(state)
+          let { transactions, institution } = await uploadFromExcel(file, t);
+          saveInStorageAlways(
+            "transactions-state",
+            JSON.stringify(transactions)
           );
+          if (institution)
+            saveInStorageAlways(
+              "institution-state",
+              JSON.stringify(institution)
+            );
           history.push("/online-builder");
           return false;
         }}

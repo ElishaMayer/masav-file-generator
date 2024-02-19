@@ -3,25 +3,25 @@ import { initReactI18next } from "react-i18next";
 
 import { getLanguageCode } from "./functions/getLanguageCode";
 import aboutEn from "./locals/en/about.json";
-import converFromExcelEn from "./locals/en/conver-from-excel.json";
+import convertFromExcelEn from "./locals/en/convert-from-excel.json";
 import homePageEn from "./locals/en/home-page.json";
 import onlineConvertorEn from "./locals/en/online-convertor.json";
 import translationEn from "./locals/en/translation.json";
 import aboutHe from "./locals/he/about.json";
-import converFromExcelHe from "./locals/he/conver-from-excel.json";
+import convertFromExcelHe from "./locals/he/convert-from-excel.json";
 import homePageHe from "./locals/he/home-page.json";
 import onlineConvertorHe from "./locals/he/online-convertor.json";
 import translationHe from "./locals/he/translation.json";
 const he = {
   ["about"]: aboutHe,
-  ["conver-from-excel"]: converFromExcelHe,
+  ["convert-from-excel"]: convertFromExcelHe,
   ["home-page"]: homePageHe,
   ["online-convertor"]: onlineConvertorHe,
   ["translation"]: translationHe,
 };
 const en = {
   ["about"]: aboutEn,
-  ["conver-from-excel"]: converFromExcelEn,
+  ["convert-from-excel"]: convertFromExcelEn,
   ["home-page"]: homePageEn,
   ["online-convertor"]: onlineConvertorEn,
   ["translation"]: translationEn,

@@ -11,9 +11,9 @@
   "failed-to-import-": "Failed to import ",
   "error-opening-file": "Error opening file",
   "error-opening-file-content": "Make sure it's a valid excel file",
-  "invalid-insitution-id": "Invalid insitution ID",
-  "invalid-insitution-Name": "Invalid insitution Name",
-  "invalid-insitution-sending-id": "Invalid insitution sending ID",
+  "invalid-institution-id": "Invalid institution ID",
+  "invalid-institution-Name": "Invalid institution Name",
+  "invalid-institution-sending-id": "Invalid institution sending ID",
   "invalid-serial-number": "Invalid serial number",
   "-bank-account-is-not-valid": " bank account is not valid",
   "-amount-is-not-valid": " amount is not valid",
@@ -35,5 +35,8 @@
   "cancel": "Cancel",
   "direction": "ltr",
   "free-version-warn-desc": "This is a free version, you can't use more that 5 transactions",
-  "free-version-warn-title": "This is a free version"
+  "free-version-warn-title": "This is a free version",
+  "cookies-message": "By using this website you agree that we use cookies to track your activity for statistics by Google Analytics. By using this web application you agree that \"Masav Online File Generator\" or the website developers won't have any responsibility for the data and the validity of the file or to any damage caused by the web application.",
+  "cookies-agree": "I agree",
+  "map-sheets-form": "Please map the worksheets from"
 }

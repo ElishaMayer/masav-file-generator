@@ -18,7 +18,7 @@ import { validateBankAccount, RESULT } from "israeli-bank-validation";
 import Modal from "antd/lib/modal/Modal";
 import { useWindowHeight, useWindowWidth } from "@react-hook/window-size";
 import { useTranslation } from "react-i18next";
-import { MODILE_BREAK } from "../constatns/constants";
+import { MOBILE_BREAK } from "../constants/constants";
 
 const bankOptions = getAllBanks().map((bank) => ({
   label: `${bank.bankCode} - ${bank.bankName}`,
@@ -55,14 +55,14 @@ const areFieldsValid = ({
 
 export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
   const { t } = useTranslation("online-convertor");
-  const [isEdit, setisEdit] = useState("");
-  const [branchoptions, setbranchoptions] = useState([]);
-  const [modalOpen, setmodalOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState("");
+  const [branchOptions, setBranchOptions] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const height = useWindowHeight();
   const width = useWindowWidth();
 
   const [form] = Form.useForm();
-  const [fieldsValid, setfieldsValid] = useState(false);
+  const [fieldsValid, setFieldsValid] = useState(false);
 
   const onSearch = (searchText) => {
     const bankId = form.getFieldValue("bankId");
@@ -73,29 +73,29 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
       value: branch.branchCode,
       label: `${branch.branchCode} - ${branch.city}, ${branch.branchAddress}`,
     }));
-    setbranchoptions(
+    setBranchOptions(
       options.length && searchText
         ? options
         : [{ label: searchText, value: searchText }]
     );
   };
-  const onSumbit = useCallback(() => {
-    setmodalOpen(false);
+  const onSubmit = useCallback(() => {
+    setModalOpen(false);
     onFormFinishClick?.(form.getFieldsValue(), isEdit);
   }, [isEdit, form, onFormFinishClick]);
 
   useImperativeHandle(ref, () => ({
     updateRow: (row) => {
-      setisEdit(row.key);
-      setfieldsValid(areFieldsValid(row));
+      setIsEdit(row.key);
+      setFieldsValid(areFieldsValid(row));
       form.setFieldsValue(row);
-      setmodalOpen(true);
+      setModalOpen(true);
     },
     addRow: () => {
-      setisEdit("");
-      setfieldsValid(false);
+      setIsEdit("");
+      setFieldsValid(false);
       form.resetFields();
-      setmodalOpen(true);
+      setModalOpen(true);
     },
   }));
   return (
@@ -103,11 +103,11 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
       className="full-screen"
       onCancel={() => {
         form.resetFields();
-        setmodalOpen(false);
+        setModalOpen(false);
       }}
       style={{ top: 20 }}
       bodyStyle={{
-        maxHeight: height - (width < MODILE_BREAK ? 20 : 100),
+        maxHeight: height - (width < MOBILE_BREAK ? 20 : 100),
         overflowY: "auto",
       }}
       title={t(`employee-form-${isEdit ? "edit" : "add"}-title`)}
@@ -116,7 +116,7 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
     >
       <Form
         {...layout}
-        onValuesChange={(_, values) => setfieldsValid(areFieldsValid(values))}
+        onValuesChange={(_, values) => setFieldsValid(areFieldsValid(values))}
         form={form}
         name="control-hooks"
         layout="vertical"
@@ -148,7 +148,7 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
           ]}
         >
           <AutoComplete
-            options={branchoptions}
+            options={branchOptions}
             onSearch={onSearch}
             placeholder={t("branch-id-placeholder")}
           />
@@ -247,7 +247,7 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
         <Form.Item>
           <Button
             disabled={!fieldsValid}
-            onClick={onSumbit}
+            onClick={onSubmit}
             type="primary"
             shape="round"
             htmlType="button"

@@ -1,4 +1,12 @@
-import { Button, PageHeader, Modal, Space, Table, Tooltip, Upload } from "antd";
+import {
+  Button,
+  PageHeader,
+  Space,
+  Table,
+  Tooltip,
+  Upload,
+  Switch,
+} from "antd";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -22,7 +30,9 @@ import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
 import { showWarning } from "../functions/showWarning";
 import { generateExcelFile } from "../functions/generateExcelFile";
-import { hasLisence, isElectron } from "../isElectron";
+import { isElectron } from "../isElectron";
+import { saveInStorage } from "../functions/helpers";
+import { MOBILE_BREAK } from "../constants/constants";
 
 const ValidatedField = ({ text, tooltip, icon }) => {
   return (
@@ -91,41 +101,69 @@ const columns = (t) => [
       }).format(amount)}`,
   },
 ];
+
 const getTransactionFromStorage = () => {
   return JSON.parse(
     localStorage.getItem("@online-editor/transactions-state") || "[]"
   );
 };
+
+const getTInstitutionFromStorage = () => {
+  return JSON.parse(
+    localStorage.getItem("@online-editor/institution-state") ||
+      `{
+      "institutionId": "",
+      "institutionName": "",
+      "sendingInstitutionId": "",
+      "serialNumber": "001"
+    }`
+  );
+};
+
 export const OnlineConvertor = () => {
-  const [lisence, setlisence] = useState("PREMIUM");
   const height = useWindowHeight();
   const width = useWindowWidth();
   const { t } = useTranslation("online-convertor");
   const modalRef = useRef();
-  const [transactions, settransactions] = useState(getTransactionFromStorage());
-  const [institution, setinstitution] = useState(null);
+  const [transactions, setTransactions] = useState(getTransactionFromStorage());
+  const [institutionDetails, setInstitutionDetails] = useState(
+    getTInstitutionFromStorage()
+  );
+  const [saveData, setSaveData] = useState(
+    localStorage.getItem("@online-editor/save-data") !== "false"
+  );
   useEffect(() => {
     localStorage.setItem(
-      "@online-editor/transactions-state",
-      JSON.stringify(transactions)
+      "@online-editor/save-data",
+      saveData ? "true" : "false"
     );
-  }, [transactions]);
+    if (!saveData) {
+      localStorage.removeItem("@online-editor/transactions-state");
+      localStorage.removeItem("@online-editor/institution-state");
+    }
+  }, [saveData]);
+
   useEffect(() => {
-    hasLisence().then(setlisence);
-  }, []);
+    saveInStorage("transactions-state", JSON.stringify(transactions));
+  }, [transactions]);
+
+  useEffect(() => {
+    saveInStorage("institution-state", JSON.stringify(institutionDetails));
+  }, [institutionDetails]);
+
   const onFormFinishClick = useCallback(
     (fields, isEdit) => {
       if (isEdit) {
-        settransactions((state) =>
+        setTransactions((state) =>
           state.map((trans) =>
             trans.key === isEdit ? { ...fields, key: isEdit } : trans
           )
         );
       } else {
-        settransactions((state) => [...state, { ...fields, key: v4() }]);
+        setTransactions((state) => [...state, { ...fields, key: v4() }]);
       }
     },
-    [settransactions, transactions]
+    [setTransactions, transactions]
   );
   const history = useHistory();
 
@@ -147,7 +185,7 @@ export const OnlineConvertor = () => {
             onClick={() =>
               showWarning("about-to-delete-row").then((res) =>
                 res
-                  ? settransactions((state) =>
+                  ? setTransactions((state) =>
                       state.filter((row) => row.key !== record.key)
                     )
                   : null
@@ -159,9 +197,9 @@ export const OnlineConvertor = () => {
         </>
       ),
     }),
-    [settransactions, modalRef]
+    [setTransactions, modalRef]
   );
-  console.log(lisence);
+
   return (
     <div>
       <PageHeader
@@ -169,27 +207,23 @@ export const OnlineConvertor = () => {
         title={
           <span>
             {t("title")}
-            {isElectron && lisence !== "PREMIUM" ? (
-              <span>
-                {" - "}
-                <span style={{ color: "orangered" }}>{t("free-version")}</span>
-              </span>
-            ) : (
-              ""
-            )}
           </span>
         }
         subTitle={t("sub-title")}
       />
-      <InstitutionForm onDataChange={setinstitution} />
+      <InstitutionForm
+        onDataChange={setInstitutionDetails}
+        institutionDetails={institutionDetails}
+      />
       <Space
         style={{
           gap: 0,
           width: "100%",
+          minHeight: width > MOBILE_BREAK ? "80px" : "",
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          margin: "10px 0",
+          marginBottom: width < MOBILE_BREAK ? "10px" : "",
         }}
       >
         <Button
@@ -198,18 +232,6 @@ export const OnlineConvertor = () => {
           size="large"
           shape="circle"
           onClick={() => {
-            if (
-              isElectron &&
-              lisence !== "PREMIUM" &&
-              transactions.length >= 5
-            ) {
-              Modal.warn({
-                bodyStyle: { direction: t("translation:direction") },
-                title: t("translation:free-version-warn-title"),
-                content: t("translation:free-version-warn-desc"),
-              });
-              return;
-            }
             modalRef.current.addRow();
           }}
           icon={<PlusOutlined />}
@@ -221,7 +243,7 @@ export const OnlineConvertor = () => {
           shape="round"
           onClick={() =>
             showWarning("about-to-delete-all").then((res) =>
-              res ? settransactions([]) : null
+              res ? setTransactions([]) : null
             )
           }
           icon={<DeleteOutlined />}
@@ -233,19 +255,12 @@ export const OnlineConvertor = () => {
           accept=".xlsx"
           showUploadList={false}
           beforeUpload={async (file) => {
-            const state = await uploadFromExcel(file, t);
-            settransactions((old) => {
-              let newState = [...old, ...state];
-              if (isElectron && lisence !== "PREMIUM" && newState.length > 5) {
-                newState = newState.slice(0, 5);
-                Modal.warn({
-                  bodyStyle: { direction: t("translation:direction") },
-                  title: t("free-version-warn-title"),
-                  content: t("free-version-warn-desc"),
-                });
-              }
-              return newState;
-            });
+            const { transactions, institution } = await uploadFromExcel(
+              file,
+              t
+            );
+            setTransactions((old) => [...old, ...transactions]);
+            if (institution) setInstitutionDetails(institution);
             return false;
           }}
         >
@@ -267,7 +282,7 @@ export const OnlineConvertor = () => {
           type="primary"
           size="large"
           shape="round"
-          onClick={() => generateMasavFile({ institution, transactions }, t)}
+          onClick={() => generateMasavFile({ institution:institutionDetails, transactions }, t)}
           icon={<DownloadOutlined />}
         >
           {t("download-file-button")}
@@ -282,6 +297,14 @@ export const OnlineConvertor = () => {
         >
           {t("download-excel-button")}
         </Button>
+        <Tooltip title={t("save-offline-data-tooltip")}>
+          <Switch
+            checkedChildren={t("save-offline-data-true")}
+            unCheckedChildren={t("save-offline-data-false")}
+            checked={saveData}
+            onChange={(checked) => setSaveData(checked)}
+          />
+        </Tooltip>
       </Space>
       <Table
         size="small"
