@@ -1,4 +1,3 @@
-## The project is online at [masav-converter.com](https://masav-converter.com/)
 <img alt="Big Logo" style="background:white" src="/public/logo and text.jpg" alt="drawing" width="200"/>
 
 ## About Masav Online File Generator
