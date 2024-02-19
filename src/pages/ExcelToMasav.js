@@ -11,7 +11,6 @@ const { Dragger } = Upload;
 const { Title, Paragraph, Text, Link } = Typography;
 
 export const ExcelToMasav = () => {
-
   const history = useHistory();
   const width = useWindowWidth();
 
@@ -29,9 +28,7 @@ export const ExcelToMasav = () => {
             {t("para-2")}
           </a>
         </Paragraph>
-        {!isElectron && (
-          <Image src="/excel-example.png" alt="Excel example screenshot" />
-        )}
+        <Image src="/excel-example.png" alt="Excel example screenshot" />
       </Typography>
       <Dragger
         style={{
