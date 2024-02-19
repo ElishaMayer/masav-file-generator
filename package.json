@@ -14,6 +14,8 @@
     "antd": "^4.16.13",
     "craco-less": "^1.20.0",
     "electron-fetch": "^1.7.4",
+    "electron-is-dev": "^3.0.1",
+    "electron-squirrel-startup": "^1.0.0",
     "exceljs": "^4.3.0",
     "i18next": "^21.2.4",
     "israeli-bank-autocomplete": "^1.0.13",
@@ -43,15 +45,13 @@
     "workbox-range-requests": "^5.1.4",
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
-    "workbox-streams": "^5.1.4",
-    "electron-is-dev": "^2.0.0",
-    "electron-squirrel-startup": "^1.0.0"
+    "workbox-streams": "^5.1.4"
   },
   "scripts": {
     "start": "set NODE_OPTIONS=--openssl-legacy-provider && craco start",
     "build": "set NODE_OPTIONS=--no-experimental-fetch --openssl-legacy-provider && craco build",
     "build-desktop-installer": "build-desktop-installer.bat",
-    "electron-pack": "electron-packager ./application/ \"Masav File Generator\" --platform win32 --arch x64 --out ../dist/ --icon public/favicon.ico  --overwrite",
+    "electron-pack": "electron-packager ./application/ \"Masav File Generator\" --platform win32 --arch x64 --out ./dist/ --icon public/favicon.ico  --overwrite",
     "electron-run": "electron ./application/",
     "electron-installer": "node ./application/build-installer.js"
   },
@@ -75,8 +75,8 @@
   },
   "homepage": "./",
   "devDependencies": {
-    "electron": "^15.1.2",
-    "electron-packager": "^15.4.0",
-    "electron-winstaller": "^5.0.0"
+    "electron": "^28.2.3",
+    "electron-packager": "^17.1.2",
+    "electron-winstaller": "^5.2.2"
   }
 }

@@ -7,8 +7,5 @@ call RMDIR "dist" /S /Q
 call RMDIR "installers" /S /Q
 call MKDIR "application/public"
 call XCOPY /S "build" "application/public"
-call cd "application"
-rem call npm version patch
 call npm run electron-pack
 call npm run electron-installer
-REM call git push

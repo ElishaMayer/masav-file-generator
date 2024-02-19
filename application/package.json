@@ -4,5 +4,9 @@
     "description": "Masav File Generator",
     "main": "index.js",
     "author": "Elisha Mayer",
-    "license": "MIT"
-  }
+    "license": "MIT",
+    "dependencies": {
+        "electron-is-dev": "^2.0.0",
+        "electron-squirrel-startup": "^1.0.0"
+    }
+}

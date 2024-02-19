@@ -8,6 +8,7 @@ if (require("electron-squirrel-startup")) return;
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
+    title: "Masav File Generator",
     width: 800,
     height: 600,
     autoHideMenuBar: true,
@@ -41,7 +42,7 @@ app.whenReady().then(() => {
         callback(fs.readFileSync(path.join(__dirname, "public", "index.html")));
       }
     });
-  createWindow();
+    createWindow();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

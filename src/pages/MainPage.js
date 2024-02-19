@@ -22,7 +22,7 @@ export const MainPage = () => {
       >
         <img
           style={{ height: "135px", margin: "auto", display: "block" }}
-          src={"/LogoBig.svg"}
+          src={"/LogoBig.png"}
         />
         <Title style={{ fontSize: "24px" }}>{t("main-title")}</Title>
         <Paragraph>
