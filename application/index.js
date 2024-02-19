@@ -19,6 +19,8 @@ function createWindow() {
     },
   });
 
+  win.maximize();
+
   // and load the index.html of the app.
   // win.loadFile("index.html");
   win.loadURL(isDev ? "http://127.0.0.1:3000" : `file://`);
