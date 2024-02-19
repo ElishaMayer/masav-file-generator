@@ -8,6 +8,7 @@ if (require("electron-squirrel-startup")) return;
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
+    show: false,
     title: "Masav File Generator",
     width: 800,
     height: 600,
@@ -24,6 +25,9 @@ function createWindow() {
   // and load the index.html of the app.
   // win.loadFile("index.html");
   win.loadURL(isDev ? "http://127.0.0.1:3000" : `file://`);
+
+  win.show();
+
   // Open the DevTools.
   if (isDev) {
     win.webContents.openDevTools({ mode: "detach" });
