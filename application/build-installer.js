@@ -1,5 +1,6 @@
 const electronInstaller = require("electron-winstaller");
 const pack = require("../package.json");
+const secrets = require("../secrets.json");
 
 (async () => {
   try {
@@ -16,6 +17,8 @@ const pack = require("../package.json");
       description: "Masav File Generator",
       version: pack.version,
       noMsi: true,
+      certificateFile: "../cert.pfx",
+      certificatePassword: secrets["certPassword"],
     });
     console.log("It worked!");
   } catch (e) {
