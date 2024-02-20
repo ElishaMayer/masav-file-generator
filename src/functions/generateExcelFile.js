@@ -1,4 +1,3 @@
-import { getAnalytics, logEvent } from "firebase/analytics";
 const ExcelJS = require("exceljs");
 
 export const generateExcelFile = async (transactions, t) => {
@@ -35,11 +34,4 @@ export const generateExcelFile = async (transactions, t) => {
   link.href = window.URL.createObjectURL(new Blob([buffer]));
   link.download = `transactions.xlsx`;
   link.click();
-
-  try {
-    const analytics = getAnalytics();
-    logEvent(analytics, "excel_exported", { length: transactions.length });
-  } catch (e) {
-    console.log(e);
-  }
 };

@@ -11,7 +11,6 @@ import {
 import {
   getAutocompleteSuggestions,
   getAllBanks,
-  getAllBranches,
 } from "israeli-bank-autocomplete";
 import isIsraeliIdValid from "israeli-id-validator";
 import { validateBankAccount, RESULT } from "israeli-bank-validation";
@@ -70,7 +69,7 @@ export const PayeeForm = forwardRef(({ onFormFinishClick }, ref) => {
       bankCode: bankId ? parseInt(bankId) : null,
       inputType: "BRANCH_CODE",
     }).map((branch) => ({
-      value: branch.branchCode,
+      value: String(branch.branchCode),
       label: `${branch.branchCode} - ${branch.city}, ${branch.branchAddress}`,
     }));
     setBranchOptions(

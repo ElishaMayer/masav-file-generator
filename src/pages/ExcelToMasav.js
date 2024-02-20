@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
 import { useWindowWidth } from "@react-hook/window-size";
+import { isElectron } from "../isElectron";
 import { saveInStorageAlways } from "../functions/helpers";
 const { Dragger } = Upload;
 
@@ -12,7 +13,9 @@ const { Title, Paragraph, Text, Link } = Typography;
 export const ExcelToMasav = () => {
   const history = useHistory();
   const width = useWindowWidth();
+
   const { t } = useTranslation("convert-from-excel");
+
   return (
     <div>
       <Typography
@@ -37,7 +40,7 @@ export const ExcelToMasav = () => {
         accept=".xlsx"
         showUploadList={false}
         beforeUpload={async (file) => {
-          const { transactions, institution } = await uploadFromExcel(file, t);
+          let { transactions, institution } = await uploadFromExcel(file, t);
           saveInStorageAlways(
             "transactions-state",
             JSON.stringify(transactions)

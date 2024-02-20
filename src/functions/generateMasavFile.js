@@ -5,9 +5,7 @@ import {
   SendPaymentsRecord,
 } from "masav";
 import moment from "moment";
-import { getAnalytics, logEvent } from "firebase/analytics";
 import JSZip from "jszip";
-import i18next from "i18next";
 
 const showSummery = (institution, transactions, t) =>
   new Promise((resolve) => {
@@ -163,11 +161,4 @@ export const generateMasavFile = async ({ institution, transactions }, t) => {
     link.download = `msv-${institution.serialNumber}.zip`;
     link.click();
   });
-
-  try {
-    const analytics = getAnalytics();
-    logEvent(analytics, "masav_exported", { length: transactions.length });
-  } catch (e) {
-    console.log(e);
-  }
 };
