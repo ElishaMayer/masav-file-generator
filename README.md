@@ -5,7 +5,7 @@ In Israel, Masav helps to transfer money between banks for more information - [W
 
 ## Install Masav File Generator
 
-Download the installation file from [here](https://github.com/ElishaMayer/masav-file-generator/releases/tag/0.2.5-alpha) to install Masav File Generator.
+Download the installation file from [here](https://github.com/ElishaMayer/masav-file-generator/releases/) to install Masav File Generator.
 
 ## Based on the following npm packages
 To create a system to handle money transfers between banks, I build the following open-source npm packages to help handle the transaction data:
