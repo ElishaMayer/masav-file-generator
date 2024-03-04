@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.less";
-import { Layout, Menu, Breadcrumb, Button } from "antd";
+import { Layout, Menu, Breadcrumb, Button, Modal, Tag, Checkbox } from "antd";
 import {
   BrowserRouter as Router,
   Switch,
@@ -73,44 +73,91 @@ const MenuComponent = withRouter(({ history }) => {
 
 const App = () => {
   const { t } = useTranslation();
+  const [showWarningModal, setShowWarningModal] = useState(
+    localStorage.getItem("@userAgreedTerms") !== "true"
+  );
+  const [userAgreedToTerms, setUserAgreedToTerms] = useState(false);
+
+  const agreeToTerms = () => {
+    localStorage.setItem("@userAgreedTerms", "true");
+    setShowWarningModal(false);
+  };
+
   useEffect(() => {
     document.getElementById("seo-title").innerHTML = t("seo-title");
     document.getElementById("seo-description").content = t("seo-description");
   }, []);
   return (
-    <Router>
-      <Layout
-        style={{
-          height: "100vh",
-          overflowY: "auto",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <div>
-          <MenuComponent />
-          <div style={{ padding: "0 50px" }}>
-            <Switch>
-              <Route path="/convert-excel">
-                <ExcelToMasav />
-              </Route>
-              <Route path="/online-builder">
-                <OnlineConvertor />
-              </Route>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/">
-                <MainPage />
-              </Route>
-            </Switch>
+    <React.Fragment>
+      <Router>
+        <Layout
+          style={{
+            height: "100vh",
+            overflowY: "auto",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div>
+            <MenuComponent />
+            <div style={{ padding: "0 50px" }}>
+              <Switch>
+                <Route path="/convert-excel">
+                  <ExcelToMasav />
+                </Route>
+                <Route path="/online-builder">
+                  <OnlineConvertor />
+                </Route>
+                <Route path="/about">
+                  <About />
+                </Route>
+                <Route path="/">
+                  <MainPage />
+                </Route>
+              </Switch>
+            </div>
           </div>
-        </div>
-        <footer style={{ textAlign: "center", padding: "5px" }}>
-          {pack.version}
-        </footer>
-      </Layout>
-    </Router>
+          <footer style={{ textAlign: "center", padding: "5px" }}>
+            {pack.version}
+          </footer>
+        </Layout>
+      </Router>
+      <Modal
+        footer={null}
+        closable={false}
+        visible={showWarningModal}
+        onOk={() => setShowWarningModal(false)}
+      >
+        <Tag style={{ whiteSpace: "break-spaces", margin: 0 }} color="red">
+          {t("online-convertor:masav-file-zip-warning")}
+        </Tag>
+        <div className="license-box">{t("license")}</div>
+        <Checkbox
+          style={{ margin: "10px 0" }}
+          onChange={(e) => setUserAgreedToTerms(e.target.checked)}
+          checked={userAgreedToTerms}
+        >
+          {t("license-checkbox")}
+        </Checkbox>
+        <Button
+          href={`${window.location.pathname}?lang=${t("other-lang-code")}`}
+          shape="round"
+          htmlType="button"
+        >
+          {t("other-lang")}
+        </Button>
+        <Button
+          style={{ margin: "0 10px" }}
+          disabled={!userAgreedToTerms}
+          onClick={agreeToTerms}
+          type="primary"
+          shape="round"
+          htmlType="button"
+        >
+          {t("confirm")}
+        </Button>
+      </Modal>
+    </React.Fragment>
   );
 };
 

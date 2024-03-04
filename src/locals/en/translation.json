@@ -35,5 +35,8 @@
   "direction": "ltr",
   "free-version-warn-desc": "This is a free version, you can't use more that 5 transactions",
   "free-version-warn-title": "This is a free version",
-  "map-sheets-form": "Please map the worksheets from"
+  "map-sheets-form": "Please map the worksheets from",
+  "confirm": "Confirm",
+  "license-checkbox": "I agree to the terms, and that \"Masav Online File Generator\" or the application developers won't have any responsibility for the data and the validity of the file or to any damage caused by the application.",
+  "license": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 }

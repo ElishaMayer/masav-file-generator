@@ -35,5 +35,8 @@
   "direction": "rtl",
   "free-version-warn-desc": "בגירסא זו ניתן לעבוד עם עד 5 רשומות. לא ניתן לייבא יותר מ5 רשומות",
   "free-version-warn-title": "זה גרסת נסיון חינמית",
-  "map-sheets-form":"אנא מפה את גליונות באקסל"
+  "map-sheets-form":"אנא מפה את גליונות באקסל",
+  "confirm": "מאשר",
+  "license-checkbox": "אני מאשר את התנאים וש \"המרת ויצירת קבצי מס\"ב אונליין\" או מפתחי היישום לא יהיו אחראים על הנתונים ו/או תוקפו של הקובץ או על כל נזק שייגרם מהיישום.",
+  "license": "התוכנה מסופקת \"כמות שהיא\", ללא אחריות מכל סוג, מפורשת או משתמעת, כולל אך לא מוגבלת לאחריות של סחירות, התאמה למטרה מסוימת ואי-הפרה. בשום מקרה לא יהיו המחברים או בעלי זכויות היוצרים אחראים לכל תביעה, נזק או חבות אחרת, בין אם בפעולה של חוזה, בנזיקין או אחרת, הנובעת מהשימוש בתוכנה או בהקשר עם התוכנה. \n\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 }
