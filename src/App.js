@@ -16,7 +16,7 @@ import { ExcelToMasav } from "./pages/ExcelToMasav";
 import { ReactComponent as Logo } from "./assets/Logo.svg";
 import { useTranslation } from "react-i18next";
 import pack from "../package.json";
-import CookieConsent from "react-cookie-consent";
+import { isElectron } from "./isElectron";
 
 const { Header, Content, Footer } = Layout;
 
@@ -24,9 +24,6 @@ const MenuComponent = withRouter(({ history }) => {
   const { t } = useTranslation();
   return (
     <>
-     <CookieConsent buttonText={t('cookies-agree')}>
-        {t('cookies-message')}
-      </CookieConsent>
       <Menu
         theme="dark"
         mode="horizontal"
@@ -51,9 +48,23 @@ const MenuComponent = withRouter(({ history }) => {
           <Link to="/about">{t("about")}</Link>
         </Menu.Item>
         <Menu.Item key={"/lang"}>
-          <a href={`${window.location.pathname}?lang=${t("other-lang-code")}`}>
-            {t("other-lang")}
-          </a>
+          {isElectron ? (
+            <Button
+              style={{ background: "none", border: "none", color: "#fff" }}
+              onClick={() => {
+                localStorage.setItem("@language", t("other-lang-code"));
+                window.location.reload();
+              }}
+            >
+              {t("other-lang")}
+            </Button>
+          ) : (
+            <a
+              href={`${window.location.pathname}?lang=${t("other-lang-code")}`}
+            >
+              {t("other-lang")}
+            </a>
+          )}
         </Menu.Item>
       </Menu>
     </>
@@ -96,7 +107,7 @@ const App = () => {
           </div>
         </div>
         <footer style={{ textAlign: "center", padding: "5px" }}>
-          {t("credits") + " v" + pack.version}
+          {pack.version}
         </footer>
       </Layout>
     </Router>

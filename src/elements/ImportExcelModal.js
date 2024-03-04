@@ -1,29 +1,10 @@
 import { AutoComplete, Button, Form, Input, InputNumber, Select } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
 import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
+
   useState,
 } from "react";
-import {
-  getAutocompleteSuggestions,
-  getAllBanks,
-  getAllBranches,
-} from "israeli-bank-autocomplete";
-import isIsraeliIdValid from "israeli-id-validator";
-import { validateBankAccount, RESULT } from "israeli-bank-validation";
-import Modal from "antd/lib/modal/Modal";
-import { useWindowHeight, useWindowWidth } from "@react-hook/window-size";
 import { useTranslation } from "react-i18next";
-import { MOBILE_BREAK } from "../constants/constants";
-
-const bankOptions = getAllBanks().map((bank) => ({
-  label: `${bank.bankCode} - ${bank.bankName}`,
-  value: String(bank.bankCode),
-}));
 
 const layout = {
   labelCol: { span: 100 },

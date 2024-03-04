@@ -26,7 +26,12 @@ export class ErrorBoundary extends React.Component {
           title="500"
           subTitle="Sorry, something went wrong."
           extra={
-            <Button onClick={() => window.location.reload()} type="primary">
+            <Button
+              onClick={() => {
+                window.location.reload();
+              }}
+              type="primary"
+            >
               Reload
             </Button>
           }

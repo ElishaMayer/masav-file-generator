@@ -3,27 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { ErrorBoundary } from "./elements/ErrorBoundary";
 import "./i18Next";
 import { Skeleton } from "antd";
 import { ConfigProvider } from "antd";
 import { getLanguageCode } from "./functions/getLanguageCode";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCyc2BK0sp2gL6VN0eQ3QyBOnZytHqlZUY",
-  authDomain: "masav-convertor.firebaseapp.com",
-  projectId: "masav-convertor",
-  storageBucket: "masav-convertor.appspot.com",
-  messagingSenderId: "934100665803",
-  appId: "1:934100665803:web:160ffd8971ed1f06ce624e",
-  measurementId: "G-WLTHE7VSGS",
-};
-
-const app = initializeApp(firebaseConfig);
-getAnalytics(app);
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { isElectron } from "./isElectron";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -46,4 +32,5 @@ reportWebVitals();
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
+if (isElectron) serviceWorkerRegistration.unregister();
+else serviceWorkerRegistration.register();

@@ -28,10 +28,11 @@ import { useWindowHeight, useWindowWidth } from "@react-hook/window-size";
 import { generateMasavFile } from "../functions/generateMasavFile";
 import { uploadFromExcel } from "../functions/uploadFromExcel";
 import { useTranslation } from "react-i18next";
-import { MOBILE_BREAK } from "../constants/constants";
 import { showWarning } from "../functions/showWarning";
 import { generateExcelFile } from "../functions/generateExcelFile";
+import { isElectron } from "../isElectron";
 import { saveInStorage } from "../functions/helpers";
+import { MOBILE_BREAK } from "../constants/constants";
 
 const ValidatedField = ({ text, tooltip, icon }) => {
   return (
@@ -203,7 +204,11 @@ export const OnlineConvertor = () => {
     <div>
       <PageHeader
         onBack={() => history.push("/")}
-        title={t("title")}
+        title={
+          <span>
+            {t("title")}
+          </span>
+        }
         subTitle={t("sub-title")}
       />
       <InstitutionForm
@@ -226,7 +231,9 @@ export const OnlineConvertor = () => {
           type="primary"
           size="large"
           shape="circle"
-          onClick={() => modalRef.current.addRow()}
+          onClick={() => {
+            modalRef.current.addRow();
+          }}
           icon={<PlusOutlined />}
         ></Button>
         <Button

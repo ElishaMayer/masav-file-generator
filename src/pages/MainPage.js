@@ -1,5 +1,8 @@
-import { Typography, Button } from "antd";
-import { EditOutlined, FileExcelOutlined } from "@ant-design/icons";
+import { Typography, Button, Modal, Upload } from "antd";
+import {
+  EditOutlined,
+  FileExcelOutlined,
+} from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useWindowWidth } from "@react-hook/window-size";
@@ -7,7 +10,7 @@ import { MOBILE_BREAK } from "../constants/constants";
 
 const { Title, Paragraph } = Typography;
 
-export const MainPage = () => {
+export const MainPage = () => {  
   const history = useHistory();
   const { t } = useTranslation("home-page");
   const width = useWindowWidth();
@@ -19,13 +22,13 @@ export const MainPage = () => {
       >
         <img
           style={{ height: "135px", margin: "auto", display: "block" }}
-          src={"/LogoBig.svg"}
+          src={"/LogoBig.png"}
         />
         <Title style={{ fontSize: "24px" }}>{t("main-title")}</Title>
         <Paragraph>
           {t("para-1")}
           &nbsp;
-          <a target="_blank" href="https://www.masav.co.il/">
+          <a target="_blank" href="https://www.masav.co.il/" rel="noreferrer">
             {t("masav")}
           </a>
           {t("para-2")}
