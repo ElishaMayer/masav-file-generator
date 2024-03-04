@@ -9,7 +9,6 @@ import { Skeleton } from "antd";
 import { ConfigProvider } from "antd";
 import { getLanguageCode } from "./functions/getLanguageCode";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import { isElectron } from "./isElectron";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -32,5 +31,4 @@ reportWebVitals();
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-if (isElectron) serviceWorkerRegistration.unregister();
-else serviceWorkerRegistration.register();
+serviceWorkerRegistration.unregister();

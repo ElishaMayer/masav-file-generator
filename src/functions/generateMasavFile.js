@@ -1,4 +1,4 @@
-import { Modal, Tag } from "antd";
+import { Button, Checkbox, Modal, Tag } from "antd";
 import {
   InstitutionSendPayment,
   MasaVSendPayments,
@@ -6,56 +6,96 @@ import {
 } from "masav";
 import moment from "moment";
 import JSZip from "jszip";
+import { useState } from "react";
+
+const DownloadMasavFileModalContent = ({
+  institution,
+  transactions,
+  t,
+  onConfirm,
+  onClose,
+}) => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <div>
+      <div>
+        <b>{t("institution-id-label")}</b>: {institution.institutionId}
+      </div>
+      <div>
+        <b>{t("sending-institution-id-label")}</b>:{" "}
+        {institution.sendingInstitutionId}
+      </div>
+      <div>
+        <b>{t("institution-name-label")}</b>: {institution.institutionName}
+      </div>
+      <div>
+        <b>{t("file-name")}</b>: {`msv.${institution.serialNumber}`}
+      </div>
+      <div>
+        <b>{t("number-of-transactions")}</b>: {transactions.length}
+      </div>
+      <div>
+        <b>{t("amount")}</b>:{" "}
+        {new Intl.NumberFormat("il-IL", {
+          style: "currency",
+          currency: "ILS",
+        }).format(
+          transactions.map((trans) => trans.amount).reduce((a, b) => a + b, 0)
+        )}
+      </div>
+      <p>{t("masav-file-zip-explanation")}</p>
+      <Tag style={{ whiteSpace: "break-spaces", margin: 0 }} color="red">
+        {t("masav-file-zip-warning")}
+      </Tag>
+      <Checkbox
+        style={{ margin: "10px 0" }}
+        onChange={(e) => setChecked(e.target.checked)}
+        checked={checked}
+      >
+        {t("masav-file-zip-checkbox")}
+      </Checkbox>
+      <div>
+        <Button onClick={onClose} shape="round" htmlType="button">
+          {t("translation:cancel")}
+        </Button>
+        <Button
+          style={{ margin: "0 10px" }}
+          disabled={!checked}
+          onClick={onConfirm}
+          type="primary"
+          shape="round"
+          htmlType="button"
+        >
+          {t("download")}
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const showSummery = (institution, transactions, t) =>
   new Promise((resolve) => {
-    Modal.confirm({
+    const manageModal = Modal.confirm({
+      className: "hide-modal-footer",
       title: t("masav-file-summery"),
       icon: null,
       bodyStyle: { direction: t("translation:direction") },
       content: (
-        <div>
-          <p>
-            <b>{t("institution-id-label")}</b>: {institution.institutionId}
-          </p>
-          <p>
-            <b>{t("sending-institution-id-label")}</b>:{" "}
-            {institution.sendingInstitutionId}
-          </p>
-          <p>
-            <b>{t("institution-name-label")}</b>: {institution.institutionName}
-          </p>
-          <p>
-            <b>{t("file-name")}</b>: {`msv.${institution.serialNumber}`}
-          </p>
-          <p>
-            <b>{t("number-of-transactions")}</b>: {transactions.length}
-          </p>
-          <p>
-            <b>{t("amount")}</b>:{" "}
-            {new Intl.NumberFormat("il-IL", {
-              style: "currency",
-              currency: "ILS",
-            }).format(
-              transactions
-                .map((trans) => trans.amount)
-                .reduce((a, b) => a + b, 0)
-            )}
-          </p>
-          <p>{t("masav-file-zip-explanation")}</p>
-          <Tag style={{ whiteSpace: "break-spaces", margin: 0 }} color="orange">
-            {t("masav-file-zip-warning")}
-          </Tag>
-        </div>
+        <DownloadMasavFileModalContent
+          transactions={transactions}
+          institution={institution}
+          t={t}
+          onClose={() => {
+            manageModal.destroy();
+            resolve(false);
+          }}
+          onConfirm={() => {
+            manageModal.destroy();
+            resolve(true);
+          }}
+        />
       ),
-      okText: t("download"),
-      cancelText: t("translation:cancel"),
-      onCancel() {
-        resolve(false);
-      },
-      onOk() {
-        resolve(true);
-      },
     });
   });
 
