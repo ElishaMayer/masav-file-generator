@@ -128,7 +128,16 @@ const App = () => {
         visible={showWarningModal}
         onOk={() => setShowWarningModal(false)}
       >
-        <Tag style={{ whiteSpace: "break-spaces", margin: 0 }} color="red">
+        <Tag
+          style={{
+            whiteSpace: "break-spaces",
+            margin: 0,
+            fontSize: "16px",
+            padding: "5px",
+            fontWeight: "600",
+          }}
+          color="red"
+        >
           {t("online-convertor:masav-file-zip-warning")}
         </Tag>
         <div className="license-box">{t("license")}</div>
